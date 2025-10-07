@@ -65,7 +65,8 @@ All colors MUST be HSL.
     --shadow-soft: 0 10px 30px -10px hsl(180 3% 10% / 0.2);
     --shadow-card: 0 4px 20px -4px hsl(180 3% 10% / 0.15);
     --glow-gold: 0 0 40px hsl(42 39% 46% / 0.3);
-    
+    --shadow-intense: 0 0 60px hsl(42 39% 46% / 0.5);
+
     /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);

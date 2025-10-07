@@ -64,7 +64,8 @@ export const MontageOrderList = ({
             onDrop={(e) => handleDrop(e, index)}
             className={cn(
               "flex items-center gap-3 p-3 rounded-xl",
-              "bg-background hover:bg-background/80 transition-colors cursor-move"
+              "bg-background hover:bg-background/80 hover:scale-[1.02] hover:shadow-md",
+              "transition-all duration-200 cursor-move active:scale-95"
             )}
           >
             <GripVertical className="h-4 w-4 text-muted flex-shrink-0" />

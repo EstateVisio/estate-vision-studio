@@ -28,11 +28,11 @@ export const Stepper = ({ steps, currentStep, completedSteps }: StepperProps) =>
                 {/* Step Circle */}
                 <div
                   className={cn(
-                    "w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all",
+                    "w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300",
                     isComplete
-                      ? "bg-freshGreen border-freshGreen"
+                      ? "bg-freshGreen border-freshGreen scale-110"
                       : isActive
-                      ? "bg-primary border-primary animate-pulse-glow"
+                      ? "bg-primary border-primary animate-pulse-glow shadow-[0_0_20px_hsl(var(--primary)/0.5)]"
                       : "bg-card border-muted"
                   )}
                 >
@@ -76,8 +76,8 @@ export const Stepper = ({ steps, currentStep, completedSteps }: StepperProps) =>
                   <div className="absolute inset-0 bg-muted" />
                   <div
                     className={cn(
-                      "absolute inset-0 bg-primary transition-all duration-500",
-                      isComplete ? "w-full" : "w-0"
+                      "absolute inset-0 bg-primary transition-all duration-700 ease-out",
+                      isComplete ? "w-full shadow-[0_0_8px_hsl(var(--primary)/0.6)]" : "w-0"
                     )}
                   />
                 </div>

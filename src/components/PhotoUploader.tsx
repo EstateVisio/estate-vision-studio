@@ -108,15 +108,15 @@ export const PhotoUploader = ({
   return (
     <div className="space-y-4">
       {/* Drop Zone */}
-      <div
-        onDrop={handleDrop}
-        onDragOver={(e) => e.preventDefault()}
-        className={cn(
-          "border-2 border-dashed border-primary/30 rounded-2xl p-8 text-center",
-          "hover:border-primary/50 hover:bg-primary/5 transition-all cursor-pointer",
-          "bg-card"
-        )}
-      >
+        <div
+          onDrop={handleDrop}
+          onDragOver={(e) => e.preventDefault()}
+          className={cn(
+            "border-2 border-dashed border-primary/30 rounded-2xl p-8 text-center",
+            "hover:border-primary/50 hover:bg-primary/5 hover:scale-[1.01]",
+            "transition-all duration-300 cursor-pointer bg-card"
+          )}
+        >
         <input
           type="file"
           id="photo-upload"
@@ -146,7 +146,7 @@ export const PhotoUploader = ({
               onDragStart={(e) => handleDragStart(e, index)}
               onDragOver={handleDragOver}
               onDrop={(e) => handlePhotoDrop(e, index)}
-              className="group relative aspect-video rounded-xl overflow-hidden shadow-card hover:shadow-glow transition-all cursor-move bg-card"
+              className="group relative aspect-video rounded-xl overflow-hidden shadow-card hover:shadow-glow hover:scale-105 transition-all duration-300 cursor-move bg-card active:scale-95"
             >
               <img
                 src={photo.url}

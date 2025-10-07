@@ -11,7 +11,7 @@ export const ProgressStages = ({ stages }: ProgressStagesProps) => {
   const allComplete = stages.every(s => s.isComplete);
 
   return (
-    <div className="bg-card rounded-2xl p-6 shadow-card max-w-md mx-auto">
+    <div className="bg-card rounded-2xl p-6 shadow-card max-w-md mx-auto animate-fade-in">
       <div className="space-y-4">
         {stages.map((stage, index) => {
           const isActive = index === currentStageIndex;
@@ -27,11 +27,14 @@ export const ProgressStages = ({ stages }: ProgressStagesProps) => {
             >
               <div className="flex-shrink-0">
                 {isComplete ? (
-                  <CheckCircle2 className="h-6 w-6 text-freshGreen" />
+                  <CheckCircle2 className="h-6 w-6 text-freshGreen animate-bounce-soft" />
                 ) : isActive ? (
-                  <Loader2 className="h-6 w-6 text-primary animate-spin" />
+                  <div className="relative">
+                    <Loader2 className="h-6 w-6 text-primary animate-spin" />
+                    <div className="absolute inset-0 rounded-full bg-primary/20 animate-ping" />
+                  </div>
                 ) : (
-                  <div className="h-6 w-6 rounded-full border-2 border-muted" />
+                  <div className="h-6 w-6 rounded-full border-2 border-muted transition-all duration-300" />
                 )}
               </div>
               
@@ -46,11 +49,16 @@ export const ProgressStages = ({ stages }: ProgressStagesProps) => {
                 </p>
                 
                 {isActive && (
-                  <div className="mt-2 bg-background rounded-full h-2 overflow-hidden">
+                  <div className="mt-2 bg-background rounded-full h-2 overflow-hidden relative">
                     <div
-                      className="h-full bg-primary transition-all duration-300 rounded-full"
+                      className="h-full bg-primary transition-all duration-500 rounded-full relative overflow-hidden"
                       style={{ width: `${stage.progress}%` }}
-                    />
+                    >
+                      <div 
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer"
+                        style={{ backgroundSize: '200% 100%' }}
+                      />
+                    </div>
                   </div>
                 )}
               </div>
@@ -60,7 +68,7 @@ export const ProgressStages = ({ stages }: ProgressStagesProps) => {
       </div>
       
       {allComplete && (
-        <div className="mt-6 text-center">
+        <div className="mt-6 text-center animate-bounce-soft">
           <p className="text-sm font-medium text-freshGreen">Processing complete! 🎉</p>
         </div>
       )}
