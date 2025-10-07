@@ -77,10 +77,10 @@ export const MontageOrderList = ({
             </div>
 
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-card-foreground truncate">
+              <p className="text-sm font-semibold text-foreground truncate">
                 {clip.caption}
               </p>
-              <p className="text-xs text-muted">
+              <p className="text-xs text-foreground/70">
                 {clip.durationSec}s
                 {clip.version > 1 && ` • v${clip.version}`}
               </p>
@@ -90,8 +90,8 @@ export const MontageOrderList = ({
       </div>
 
       <div className="mt-4 pt-4 border-t border-border">
-        <p className="text-xs text-muted">
-          Total duration: <span className="font-semibold text-card-foreground">
+        <p className="text-xs text-foreground/70">
+          Total duration: <span className="font-semibold text-foreground">
             {orderedClips.reduce((sum, c) => sum + c.durationSec, 0)}s
           </span>
         </p>
