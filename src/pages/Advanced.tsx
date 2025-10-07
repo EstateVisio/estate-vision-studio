@@ -8,6 +8,7 @@ import { ObjectChips } from '@/components/Advanced/ObjectChips';
 import { ClipCard } from '@/components/Advanced/ClipCard';
 import { TransitionCard } from '@/components/Advanced/TransitionCard';
 import { MontageOrderList } from '@/components/Advanced/MontageOrderList';
+import { ClipTweakDialog } from '@/components/Advanced/ClipTweakDialog';
 import { ProgressStages } from '@/components/ProgressStages';
 import { VideoPlayer } from '@/components/VideoPlayer';
 import { Photo, Analysis, Clip, TransitionPreset, FinalVideo, ProcessingStage, ObjectTag } from '@/types/estate';
@@ -56,6 +57,8 @@ export const Advanced = () => {
   const [selectedObjects, setSelectedObjects] = useState<string[]>([]);
   const [clips, setClips] = useState<Clip[]>([]);
   const [clipOrder, setClipOrder] = useState<string[]>([]);
+  const [selectedClip, setSelectedClip] = useState<Clip | null>(null);
+  const [isTweakDialogOpen, setIsTweakDialogOpen] = useState(false);
   const [regeneratingClipId, setRegeneratingClipId] = useState<string | null>(null);
   const [selectedTransition, setSelectedTransition] = useState<TransitionPreset | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -356,8 +359,14 @@ export const Advanced = () => {
                     <ClipCard
                       key={clip.id}
                       clip={clip}
-                      onRegenerate={handleRegenerateClip}
-                      isRegenerating={regeneratingClipId === clip.id}
+                      onTweakClick={() => {
+                        setSelectedClip(clip);
+                        setIsTweakDialogOpen(true);
+                      }}
+                      onVideoClick={() => {
+                        setSelectedClip(clip);
+                        setIsTweakDialogOpen(true);
+                      }}
                     />
                   ))}
                 </div>
@@ -466,6 +475,15 @@ export const Advanced = () => {
           )}
         </div>
       </div>
+
+      {/* Clip Tweak Dialog */}
+      <ClipTweakDialog
+        clip={selectedClip}
+        open={isTweakDialogOpen}
+        onOpenChange={setIsTweakDialogOpen}
+        onRegenerate={handleRegenerateClip}
+        isRegenerating={regeneratingClipId === selectedClip?.id}
+      />
     </div>
   );
 };
