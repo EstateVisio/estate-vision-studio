@@ -98,6 +98,13 @@ export const Advanced = () => {
     setCurrentStep(Math.max(currentStep - 1, 0));
   };
 
+  const handleStepClick = (stepIndex: number) => {
+    // Only allow navigation to completed steps or current step
+    if (completedSteps.includes(stepIndex) || stepIndex === currentStep) {
+      setCurrentStep(stepIndex);
+    }
+  };
+
   const handleAnalyze = async () => {
     if (photos.length === 0) {
       toast({
@@ -259,7 +266,7 @@ export const Advanced = () => {
       <div className="container mx-auto px-4 py-8 flex-1">
         <div className="max-w-6xl mx-auto space-y-8">
           {/* Stepper */}
-          <Stepper steps={STEPS} currentStep={currentStep} completedSteps={completedSteps} />
+          <Stepper steps={STEPS} currentStep={currentStep} completedSteps={completedSteps} onStepClick={handleStepClick} />
 
           {/* Step A: Upload */}
           {currentStep === 0 && (

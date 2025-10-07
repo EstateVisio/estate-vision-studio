@@ -11,29 +11,35 @@ type StepperProps = {
   steps: Step[];
   currentStep: number;
   completedSteps: number[];
+  onStepClick?: (stepIndex: number) => void;
 };
 
-export const Stepper = ({ steps, currentStep, completedSteps }: StepperProps) => {
+export const Stepper = ({ steps, currentStep, completedSteps, onStepClick }: StepperProps) => {
   return (
     <div className="w-full">
       <div className="flex items-center justify-between mb-8">
         {steps.map((step, index) => {
           const isActive = currentStep === index;
           const isComplete = completedSteps.includes(index);
+          const isClickable = isComplete || isActive;
           const showLine = index < steps.length - 1;
 
           return (
             <div key={step.id} className="flex items-center flex-1">
               <div className="flex flex-col items-center gap-2 relative">
                 {/* Step Circle */}
-                <div
+                <button
+                  onClick={() => isClickable && onStepClick?.(index)}
+                  disabled={!isClickable}
                   className={cn(
                     "w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300",
                     isComplete
                       ? "bg-freshGreen border-freshGreen scale-110"
                       : isActive
                       ? "bg-primary border-primary animate-pulse-glow shadow-[0_0_20px_hsl(var(--primary)/0.5)]"
-                      : "bg-card border-muted"
+                      : "bg-card border-muted",
+                    isClickable && "cursor-pointer hover:scale-110 hover:shadow-glow",
+                    !isClickable && "cursor-not-allowed opacity-50"
                   )}
                 >
                   {isComplete ? (
@@ -48,7 +54,7 @@ export const Stepper = ({ steps, currentStep, completedSteps }: StepperProps) =>
                       {index + 1}
                     </span>
                   )}
-                </div>
+                </button>
 
                 {/* Step Label */}
                 <div className="text-center hidden sm:block">
