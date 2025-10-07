@@ -102,8 +102,9 @@ export const Advanced = () => {
   };
 
   const handleStepClick = (stepIndex: number) => {
-    // Only allow navigation to completed steps or current step
-    if (completedSteps.includes(stepIndex) || stepIndex === currentStep) {
+    // Allow navigation to completed steps, current step, or next step if previous is complete
+    const isPreviousComplete = stepIndex === 0 || completedSteps.includes(stepIndex - 1);
+    if (completedSteps.includes(stepIndex) || stepIndex === currentStep || isPreviousComplete) {
       setCurrentStep(stepIndex);
     }
   };

@@ -21,7 +21,8 @@ export const Stepper = ({ steps, currentStep, completedSteps, onStepClick }: Ste
         {steps.map((step, index) => {
           const isActive = currentStep === index;
           const isComplete = completedSteps.includes(index);
-          const isClickable = isComplete || isActive;
+          const isPreviousComplete = index === 0 || completedSteps.includes(index - 1);
+          const isClickable = isComplete || isActive || isPreviousComplete;
           const showLine = index < steps.length - 1;
 
           return (
