@@ -1,8 +1,49 @@
-# Welcome to your Lovable project
+# EstateVisio Studio
+
+AI-powered real-estate video montage creator with quality analysis, object detection, and cinematic transitions.
 
 ## Project info
 
 **URL**: https://lovable.dev/projects/f3ef8939-5296-49f5-8b2d-c9b09fbb71b3
+
+## Features
+
+### Simple Flow
+- Quick photo upload (max 10 photos)
+- Automatic AI processing with staged progress
+- Instant video montage generation
+- Clean, intuitive interface
+
+### Advanced Flow (5-Step Wizard)
+1. **Upload** - Drag-and-drop photo management with reordering
+2. **Analyze** - AI quality grading (A-F) with detailed metrics (exposure, sharpness, framing, lighting)
+3. **Clips** - Individual ~5s clip generation with custom regeneration instructions
+4. **Transitions** - Choose from 5 cinematic presets
+5. **Montage** - Final video with professional polish
+
+### Key Capabilities
+- Quality grading with radial score visualization
+- Object detection and filtering (sofas, bay windows, kitchen islands, etc.)
+- Drag-and-drop clip reordering
+- Multi-version clip regeneration
+- Mock API with realistic delays (12-18s processing)
+- LocalStorage state persistence
+- Responsive design with warm-professional aesthetic
+
+## Design System
+
+### Color Palette
+- **Deep Charcoal** (#323434) - App shell, headings
+- **Refined Gold** (#A98A45) - Primary actions, accents, focus
+- **Cloud White** (#F8F9FA) - Content surfaces
+- **Slate Neutral** (#6C6D6D) - Body text, dividers
+- Supporting: Warm Sand, Terracotta, Estate Teal, Sky Glow Blue, Fresh Green
+
+### Style
+- Cinematic/premium aesthetic
+- rounded-2xl cards with soft shadows
+- Smooth micro-interactions and animations
+- Generous spacing and typography hierarchy
 
 ## How can I edit this code?
 
