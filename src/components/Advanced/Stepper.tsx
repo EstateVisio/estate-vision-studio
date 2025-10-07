@@ -34,9 +34,9 @@ export const Stepper = ({ steps, currentStep, completedSteps, onStepClick }: Ste
                   className={cn(
                     "w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300",
                     isComplete
-                      ? "bg-freshGreen border-freshGreen scale-110"
+                      ? "bg-freshGreen border-freshGreen"
                       : isActive
-                      ? "bg-primary border-primary animate-pulse-glow shadow-[0_0_20px_hsl(var(--primary)/0.5)]"
+                      ? "bg-primary border-primary animate-pulse-glow shadow-[0_0_20px_hsl(var(--primary)/0.5)] scale-125"
                       : "bg-card border-muted",
                     isClickable && "cursor-pointer hover:scale-110 hover:shadow-glow",
                     !isClickable && "cursor-not-allowed opacity-50"
