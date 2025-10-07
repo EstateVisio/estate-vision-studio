@@ -27,7 +27,7 @@ export const Stepper = ({ steps, currentStep, completedSteps, onStepClick }: Ste
 
           return (
             <div key={step.id} className="flex items-center flex-1">
-              <div className="flex flex-col items-center gap-2 relative">
+              <div className="flex flex-col items-center gap-3 relative">
                 {/* Step Circle */}
                 <button
                   onClick={() => isClickable && onStepClick?.(index)}
@@ -61,7 +61,7 @@ export const Stepper = ({ steps, currentStep, completedSteps, onStepClick }: Ste
                 <div className="text-center hidden sm:block">
                   <p
                     className={cn(
-                      "text-xs font-medium",
+                      "text-sm font-semibold",
                       isComplete
                         ? "text-freshGreen"
                         : isActive
