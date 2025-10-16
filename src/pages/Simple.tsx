@@ -7,7 +7,7 @@ import { Photo, ProcessingStage, FinalVideo } from '@/types/estate';
 import { mockApi } from '@/services/mockApi';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
-import { Sparkles, RotateCcw } from 'lucide-react';
+import { Sparkles, RotateCcw, Download } from 'lucide-react';
 
 type ProcessState = 'idle' | 'processing' | 'complete' | 'error';
 
@@ -88,6 +88,22 @@ export const Simple = () => {
     setResult(null);
   };
 
+  const downloadVideo = () => {
+    if (!result) return;
+    
+    const link = document.createElement('a');
+    link.href = result.url;
+    link.download = 'estate-video-montage.mp4';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    toast({
+      title: 'Download started',
+      description: 'Your video is being downloaded.',
+    });
+  };
+
   return (
     <div className="min-h-[calc(100vh-8rem)] flex flex-col">
       <div className="container mx-auto px-4 py-8 flex-1">
@@ -146,11 +162,15 @@ export const Simple = () => {
             <VideoPlayer url={result.url} className="aspect-video max-w-3xl mx-auto" autoPlay />
 
             <div className="flex flex-wrap justify-center gap-4 pt-6">
+              <Button onClick={downloadVideo} size="lg" className="gap-2 shadow-glow">
+                <Download className="h-4 w-4" />
+                Download Video
+              </Button>
               <Button onClick={reset} variant="outline" className="gap-2">
                 <RotateCcw className="h-4 w-4" />
                 Start Over
               </Button>
-              <Button onClick={() => navigate('/advanced')} className="gap-2">
+              <Button onClick={() => navigate('/advanced')} variant="outline" className="gap-2">
                 <Sparkles className="h-4 w-4" />
                 Try Advanced
               </Button>

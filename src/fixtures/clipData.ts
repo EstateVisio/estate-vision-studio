@@ -36,7 +36,7 @@ export const generateMockClip = (photoId: string, version: number = 1): Clip => 
 
 export const MOCK_FINAL_VIDEO = {
   id: 'final-montage-1',
-  url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4',
+  url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
   durationSec: 30,
   createdAt: new Date().toISOString(),
 };
