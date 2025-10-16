@@ -75,8 +75,8 @@ export const Projects = () => {
                   
                   {/* Title overlay - appears on hover */}
                   <div className="absolute bottom-0 left-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <h3 className="text-2xl font-bold text-foreground tracking-wide mb-1">{project.name}</h3>
-                    <p className="text-sm text-foreground/80">{project.description}</p>
+                    <h3 className="text-2xl font-bold text-card-foreground tracking-wide mb-1">{project.name}</h3>
+                    <p className="text-sm text-muted">{project.description}</p>
                   </div>
                   
                   {/* Gold glow border on hover */}
@@ -92,7 +92,7 @@ export const Projects = () => {
                   </div>
                 </div>
 
-                <div className="space-y-2.5 text-sm text-foreground/70 font-medium">
+                <div className="space-y-2.5 text-sm text-card-foreground/70 font-medium">
                   <div className="flex items-center gap-2">
                     <Image className="h-4 w-4 text-primary" />
                     <span>{project.photosCount} photos</span>
