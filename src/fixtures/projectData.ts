@@ -16,6 +16,14 @@ export const mockProjects: Project[] = [
       'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=400',
       'https://images.unsplash.com/photo-1600210492493-0946911123ea?w=400',
     ],
+    advancedFlowState: {
+      currentStep: 4,
+      completedSteps: [0, 1, 2, 3, 4],
+      hasAnalyses: true,
+      hasClips: true,
+      hasTransition: true,
+      hasFinalVideo: true,
+    },
   },
   {
     id: '2',
@@ -32,6 +40,14 @@ export const mockProjects: Project[] = [
       'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=400',
       'https://images.unsplash.com/photo-1600563438938-a9a27216b4f5?w=400',
     ],
+    advancedFlowState: {
+      currentStep: 4,
+      completedSteps: [0, 1, 2, 3, 4],
+      hasAnalyses: true,
+      hasClips: true,
+      hasTransition: true,
+      hasFinalVideo: true,
+    },
   },
   {
     id: '3',
@@ -47,6 +63,14 @@ export const mockProjects: Project[] = [
       'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400',
       'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=400',
     ],
+    advancedFlowState: {
+      currentStep: 2,
+      completedSteps: [0, 1],
+      hasAnalyses: true,
+      hasClips: true,
+      hasTransition: false,
+      hasFinalVideo: false,
+    },
   },
   {
     id: '4',
@@ -61,5 +85,13 @@ export const mockProjects: Project[] = [
       'https://images.unsplash.com/photo-1600047509358-9dc75507daeb?w=400',
       'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=400',
     ],
+    advancedFlowState: {
+      currentStep: 0,
+      completedSteps: [],
+      hasAnalyses: false,
+      hasClips: false,
+      hasTransition: false,
+      hasFinalVideo: false,
+    },
   },
 ];

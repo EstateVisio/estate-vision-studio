@@ -14,8 +14,9 @@ import { VideoPlayer } from '@/components/VideoPlayer';
 import { Photo, Analysis, Clip, TransitionPreset, FinalVideo, ProcessingStage, ObjectTag } from '@/types/estate';
 import { mockApi } from '@/services/mockApi';
 import { useToast } from '@/hooks/use-toast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Sparkles, ArrowRight, ArrowLeft, RotateCcw } from 'lucide-react';
+import { mockProjects } from '@/fixtures/projectData';
 
 const STEPS: Step[] = [
   { id: 'upload', label: 'Upload', description: 'Add photos' },
@@ -49,8 +50,16 @@ const TRANSITION_PRESETS: Array<{ preset: TransitionPreset; description: string 
 ];
 
 export const Advanced = () => {
-  const [currentStep, setCurrentStep] = useState(0);
-  const [completedSteps, setCompletedSteps] = useState<number[]>([]);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  
+  // Get project to load its state
+  const project = mockProjects.find(p => p.id === id);
+  const projectState = project?.advancedFlowState;
+
+  const [currentStep, setCurrentStep] = useState(projectState?.currentStep || 0);
+  const [completedSteps, setCompletedSteps] = useState<number[]>(projectState?.completedSteps || []);
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [analyses, setAnalyses] = useState<Analysis[]>([]);
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
@@ -64,31 +73,32 @@ export const Advanced = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [processingStages, setProcessingStages] = useState<ProcessingStage[]>([]);
   const [finalVideo, setFinalVideo] = useState<FinalVideo | null>(null);
-  const { toast } = useToast();
-  const navigate = useNavigate();
 
-  // Load from localStorage
+  // Load from localStorage per project
   useEffect(() => {
-    const saved = localStorage.getItem('estatevisio-advanced-state');
+    if (!id) return;
+    
+    const saved = localStorage.getItem(`estatevisio-advanced-state-${id}`);
     if (saved) {
       try {
         const state = JSON.parse(saved);
-        setCurrentStep(state.currentStep || 0);
-        setCompletedSteps(state.completedSteps || []);
-        // Don't restore photos (file objects can't be serialized)
+        setCurrentStep(state.currentStep || projectState?.currentStep || 0);
+        setCompletedSteps(state.completedSteps || projectState?.completedSteps || []);
       } catch (e) {
         console.error('Failed to load state', e);
       }
     }
-  }, []);
+  }, [id, projectState]);
 
-  // Save to localStorage
+  // Save to localStorage per project
   useEffect(() => {
-    localStorage.setItem('estatevisio-advanced-state', JSON.stringify({
+    if (!id) return;
+    
+    localStorage.setItem(`estatevisio-advanced-state-${id}`, JSON.stringify({
       currentStep,
       completedSteps,
     }));
-  }, [currentStep, completedSteps]);
+  }, [currentStep, completedSteps, id]);
 
   const handleNext = () => {
     if (!completedSteps.includes(currentStep)) {
@@ -252,7 +262,9 @@ export const Advanced = () => {
     setClipOrder([]);
     setSelectedTransition(null);
     setFinalVideo(null);
-    localStorage.removeItem('estatevisio-advanced-state');
+    if (id) {
+      localStorage.removeItem(`estatevisio-advanced-state-${id}`);
+    }
   };
 
   const filteredAnalyses = selectedObjects.length > 0
