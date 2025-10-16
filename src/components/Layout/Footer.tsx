@@ -1,19 +1,17 @@
-import { Lightbulb } from 'lucide-react';
+import logoLight from '@/assets/logo.png';
 
-type FooterProps = {
-  tip?: string;
-};
-
-export const Footer = ({ tip }: FooterProps) => {
-  const defaultTip = 'For best results, upload high-resolution photos with good lighting.';
-
+export const Footer = () => {
   return (
-    <footer className="border-t border-border bg-card mt-auto">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-start gap-3 text-sm text-muted">
-          <Lightbulb className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" />
-          <p>{tip || defaultTip}</p>
-        </div>
+    <footer className="mt-auto bg-gradient-to-b from-[#323434] to-[#3a3b3b]">
+      <div className="mx-auto max-w-[1280px] px-6 py-12 md:py-14 flex flex-col items-center text-center">
+        <img 
+          src={logoLight} 
+          alt="EstateVisio" 
+          className="h-5 md:h-7 w-auto object-contain mb-3 md:mb-4"
+        />
+        <p className="text-[#F8F9FA]/95 text-sm md:text-base tracking-wide max-w-md leading-relaxed">
+          Луксозни визии, задвижвани от AI.
+        </p>
       </div>
     </footer>
   );
