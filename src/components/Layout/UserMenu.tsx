@@ -79,10 +79,10 @@ export const UserMenu = () => {
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
-              <p className="font-bold text-charcoal text-sm truncate">
+              <p className="font-bold text-card-foreground text-sm truncate">
                 {mockUser.name}
               </p>
-              <p className="text-xs text-slate truncate">
+              <p className="text-xs text-muted-foreground truncate">
                 {mockUser.email}
               </p>
             </div>
@@ -98,7 +98,7 @@ export const UserMenu = () => {
                 console.log('Navigate to profile');
               }}
             >
-              <User className="h-[18px] w-[18px] mr-3 text-charcoal/70" />
+              <User className="h-[18px] w-[18px] mr-3 text-card-foreground/70" />
               <span className="tracking-wide">{t('viewProfile')}</span>
             </DropdownMenuItem>
 
@@ -109,7 +109,7 @@ export const UserMenu = () => {
                 setShowSettingsDialog(true);
               }}
             >
-              <Settings className="h-[18px] w-[18px] mr-3 text-charcoal/70" />
+              <Settings className="h-[18px] w-[18px] mr-3 text-card-foreground/70" />
               <span className="tracking-wide">{t('settings')}</span>
             </DropdownMenuItem>
 
@@ -121,7 +121,7 @@ export const UserMenu = () => {
                 console.log('Navigate to billing');
               }}
             >
-              <CreditCard className="h-[18px] w-[18px] mr-3 text-charcoal/70" />
+              <CreditCard className="h-[18px] w-[18px] mr-3 text-card-foreground/70" />
               <span className="tracking-wide">{t('billing')}</span>
             </DropdownMenuItem>
 
@@ -138,7 +138,7 @@ export const UserMenu = () => {
 
           {/* Optional Footer */}
           <div className="mt-4 pt-3 border-t border-black/[0.06]">
-            <p className="text-xs text-slate text-center">v1.0.0</p>
+            <p className="text-xs text-muted-foreground text-center">v1.0.0</p>
           </div>
         </DropdownMenuContent>
       </DropdownMenu>

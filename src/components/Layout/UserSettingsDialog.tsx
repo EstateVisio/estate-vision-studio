@@ -159,10 +159,10 @@ export const UserSettingsDialog = ({ open, onOpenChange, user }: UserSettingsDia
         {/* Header */}
         <div className="relative px-6 pt-6 pb-4 border-b border-black/[0.06]">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-charcoal">
+            <DialogTitle className="text-2xl font-bold text-card-foreground">
               {t('userSettingsTitle')}
             </DialogTitle>
-            <DialogDescription className="text-sm text-slate/90">
+            <DialogDescription className="text-sm text-muted-foreground">
               {t('userSettingsSubtitle')}
             </DialogDescription>
           </DialogHeader>
@@ -172,7 +172,7 @@ export const UserSettingsDialog = ({ open, onOpenChange, user }: UserSettingsDia
             className="absolute top-6 right-6 p-2 rounded-lg hover:bg-black/5 transition-colors disabled:opacity-50"
             aria-label="Close"
           >
-            <X className="h-5 w-5 text-slate" />
+            <X className="h-5 w-5 text-accent" />
           </button>
         </div>
 
@@ -186,18 +186,18 @@ export const UserSettingsDialog = ({ open, onOpenChange, user }: UserSettingsDia
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-sm font-semibold text-charcoal">
+                    <FormLabel className="text-sm font-semibold text-card-foreground">
                       {t('name')} <span className="text-destructive">*</span>
                     </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         disabled={isLoading}
-                        className="h-12 bg-white border-slate/20 focus:border-primary focus:ring-primary"
+                        className="h-12 bg-white border-border focus:border-primary focus:ring-primary placeholder:text-black text-black"
                         placeholder="John Doe"
                       />
                     </FormControl>
-                    <FormMessage className="text-xs text-slate/90" />
+                    <FormMessage className="text-xs text-muted-foreground" />
                   </FormItem>
                 )}
               />
@@ -207,7 +207,7 @@ export const UserSettingsDialog = ({ open, onOpenChange, user }: UserSettingsDia
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-sm font-semibold text-charcoal">
+                    <FormLabel className="text-sm font-semibold text-card-foreground">
                       {t('email')} <span className="text-destructive">*</span>
                     </FormLabel>
                     <FormControl>
@@ -215,11 +215,11 @@ export const UserSettingsDialog = ({ open, onOpenChange, user }: UserSettingsDia
                         {...field}
                         type="email"
                         disabled={isLoading}
-                        className="h-12 bg-white border-slate/20 focus:border-primary focus:ring-primary"
+                        className="h-12 bg-white border-border focus:border-primary focus:ring-primary placeholder:text-black text-black"
                         placeholder="john@example.com"
                       />
                     </FormControl>
-                    <FormMessage className="text-xs text-slate/90" />
+                    <FormMessage className="text-xs text-muted-foreground" />
                   </FormItem>
                 )}
               />
@@ -234,11 +234,11 @@ export const UserSettingsDialog = ({ open, onOpenChange, user }: UserSettingsDia
                   className="w-full justify-between h-auto p-4 hover:bg-black/5 transition-colors"
                   disabled={isLoading}
                 >
-                  <span className="text-sm font-semibold text-charcoal">
+                  <span className="text-sm font-semibold text-card-foreground">
                     {t('changePassword')}
                   </span>
                   <ChevronDown 
-                    className={`h-5 w-5 text-slate transition-transform duration-200 ${
+                    className={`h-5 w-5 text-muted-foreground transition-transform duration-200 ${
                       isPasswordOpen ? 'rotate-180' : ''
                     }`}
                   />
@@ -251,7 +251,7 @@ export const UserSettingsDialog = ({ open, onOpenChange, user }: UserSettingsDia
                   name="currentPassword"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-semibold text-charcoal">
+                      <FormLabel className="text-sm font-semibold text-card-foreground">
                         {t('currentPassword')}
                       </FormLabel>
                       <FormControl>
@@ -259,11 +259,11 @@ export const UserSettingsDialog = ({ open, onOpenChange, user }: UserSettingsDia
                           {...field}
                           type="password"
                           disabled={isLoading}
-                          className="h-12 bg-white border-slate/20 focus:border-primary focus:ring-primary"
+                          className="h-12 bg-white border-border focus:border-primary focus:ring-primary placeholder:text-black text-black"
                           placeholder="••••••••"
                         />
                       </FormControl>
-                      <FormMessage className="text-xs text-slate/90" />
+                      <FormMessage className="text-xs text-muted-foreground" />
                     </FormItem>
                   )}
                 />
@@ -273,7 +273,7 @@ export const UserSettingsDialog = ({ open, onOpenChange, user }: UserSettingsDia
                   name="newPassword"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-semibold text-charcoal">
+                      <FormLabel className="text-sm font-semibold text-card-foreground">
                         {t('newPassword')}
                       </FormLabel>
                       <FormControl>
@@ -281,14 +281,14 @@ export const UserSettingsDialog = ({ open, onOpenChange, user }: UserSettingsDia
                           {...field}
                           type="password"
                           disabled={isLoading}
-                          className="h-12 bg-white border-slate/20 focus:border-primary focus:ring-primary"
+                          className="h-12 bg-white border-border focus:border-primary focus:ring-primary placeholder:text-black text-black"
                           placeholder="••••••••"
                         />
                       </FormControl>
-                      <FormDescription className="text-xs text-slate/80">
+                      <FormDescription className="text-xs text-muted-foreground/80">
                         {t('passwordHelper')}
                       </FormDescription>
-                      <FormMessage className="text-xs text-slate/90" />
+                      <FormMessage className="text-xs text-muted-foreground" />
                     </FormItem>
                   )}
                 />
@@ -298,7 +298,7 @@ export const UserSettingsDialog = ({ open, onOpenChange, user }: UserSettingsDia
                   name="confirmPassword"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-semibold text-charcoal">
+                      <FormLabel className="text-sm font-semibold text-card-foreground">
                         {t('confirmPassword')}
                       </FormLabel>
                       <FormControl>
@@ -306,11 +306,11 @@ export const UserSettingsDialog = ({ open, onOpenChange, user }: UserSettingsDia
                           {...field}
                           type="password"
                           disabled={isLoading}
-                          className="h-12 bg-white border-slate/20 focus:border-primary focus:ring-primary"
+                          className="h-12 bg-white border-border focus:border-primary focus:ring-primary placeholder:text-black text-black"
                           placeholder="••••••••"
                         />
                       </FormControl>
-                      <FormMessage className="text-xs text-slate/90" />
+                      <FormMessage className="text-xs text-muted-foreground" />
                     </FormItem>
                   )}
                 />
@@ -322,7 +322,7 @@ export const UserSettingsDialog = ({ open, onOpenChange, user }: UserSettingsDia
               <Button
                 type="submit"
                 disabled={isLoading || !hasChanges || !form.formState.isValid}
-                className="flex-1 h-12 bg-primary hover:bg-primary/90 text-charcoal font-semibold rounded-full"
+                className="flex-1 h-12 bg-primary hover:bg-primary/90 text-card-foreground font-semibold rounded-full"
               >
                 {isLoading ? t('saving') : t('saveChanges')}
               </Button>
