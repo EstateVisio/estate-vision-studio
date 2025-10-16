@@ -80,6 +80,11 @@ export const Stepper = ({ steps, currentStep, completedSteps, onStepClick }: Ste
                           ? 'bg-freshGreen' 
                           : 'bg-muted/30'
                       )}
+                      style={{
+                        left: 'calc(50% + 24px)', // Position at center of current circle + half circle width
+                        top: '24px', // Center vertically on the base circle (48px / 2)
+                        transform: 'translateY(-50%)'
+                      }}
                     />
                   )}
                 </div>

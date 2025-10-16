@@ -9,7 +9,7 @@ export const mockProjects: Project[] = [
     updatedAt: new Date('2024-01-20'),
     photosCount: 24,
     status: 'completed',
-    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
     photoUrls: [
       'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400',
       'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400',
@@ -33,7 +33,7 @@ export const mockProjects: Project[] = [
     updatedAt: new Date('2024-02-05'),
     photosCount: 18,
     status: 'completed',
-    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
     photoUrls: [
       'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=400',
       'https://images.unsplash.com/photo-1600047509358-9dc75507daeb?w=400',
