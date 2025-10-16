@@ -20,35 +20,15 @@ import { Sparkles, ArrowRight, ArrowLeft, RotateCcw, Edit3 } from 'lucide-react'
 import { loadProjectPhotos, saveProjectPhotos, clearProjectPhotos } from '@/lib/photoStore';
 import { getProjectFromAll } from '@/services/projectStore';
 
-const STEPS: Step[] = [
-  { id: 'upload', label: 'Upload', description: 'Add photos' },
-  { id: 'analyze', label: 'Analyze', description: 'Quality check' },
-  { id: 'clips', label: 'Clips', description: 'Generate scenes' },
-  { id: 'transitions', label: 'Transitions', description: 'Choose style' },
-  { id: 'montage', label: 'Montage', description: 'Final video' },
-];
+// Step metadata is created after we have access to the translation function
+let STEPS: Step[] = [];
 
-const TRANSITION_PRESETS: Array<{ preset: TransitionPreset; description: string }> = [
-  {
-    preset: 'Cinematic Dissolve',
-    description: 'Smooth crossfade with subtle motion blur, perfect for luxury estates.',
-  },
-  {
-    preset: 'Cut + Motion Blur',
-    description: 'Dynamic cuts with directional blur for modern, energetic pacing.',
-  },
-  {
-    preset: 'Wipe (Minimal)',
-    description: 'Clean geometric wipes with minimal distraction from the imagery.',
-  },
-  {
-    preset: 'Parallax Slide',
-    description: 'Layered sliding effect creating depth and dimension between scenes.',
-  },
-  {
-    preset: 'Soft Fade + Gold Overlay',
-    description: 'Elegant fade with subtle gold tint for premium, warm transitions.',
-  },
+const TRANSITION_PRESETS: Array<{ preset: TransitionPreset; descriptionKey: keyof typeof import('@/i18n/translations').translations }> = [
+  { preset: 'Cinematic Dissolve', descriptionKey: 'cinematicDissolveDesc' },
+  { preset: 'Cut + Motion Blur', descriptionKey: 'cutMotionBlurDesc' },
+  { preset: 'Wipe (Minimal)', descriptionKey: 'wipeMinimalDesc' },
+  { preset: 'Parallax Slide', descriptionKey: 'parallaxSlideDesc' },
+  { preset: 'Soft Fade + Gold Overlay', descriptionKey: 'softFadeGoldDesc' },
 ];
 
 export const Advanced = () => {
@@ -58,6 +38,15 @@ export const Advanced = () => {
   const { toast } = useToast();
   const { t } = useLanguage();
   
+  // Initialize localized steps
+  STEPS = [
+    { id: 'upload', label: t('stepUpload'), description: t('stepUploadDesc') },
+    { id: 'analyze', label: t('stepAnalyze'), description: t('stepAnalyzeDesc') },
+    { id: 'clips', label: t('stepClips'), description: t('stepClipsDesc') },
+    { id: 'transitions', label: t('stepTransitions'), description: t('stepTransitionsDesc') },
+    { id: 'montage', label: t('stepMontage'), description: t('stepMontageDesc') },
+  ];
+
   // Debug logging
   console.log('Advanced component - id:', id, 'location:', location.pathname);
   
@@ -210,8 +199,8 @@ export const Advanced = () => {
     if (photos.length === 0) {
       toast({
         variant: 'destructive',
-        title: 'No photos',
-        description: 'Please upload at least one photo.',
+        title: t('noPhotos'),
+        description: t('uploadAtLeastOne'),
       });
       return;
     }
@@ -222,14 +211,14 @@ export const Advanced = () => {
       setAnalyses(results);
       handleNext();
       toast({
-        title: 'Analysis complete',
-        description: `${results.length} photos analyzed successfully.`,
+        title: t('analysisComplete'),
+        description: `${results.length} ${t('photosAnalyzed')}`,
       });
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Analysis failed',
-        description: error instanceof Error ? error.message : 'Unknown error',
+        title: t('analysisFailed'),
+        description: error instanceof Error ? error.message : t('error'),
       });
     } finally {
       setIsProcessing(false);
@@ -244,14 +233,14 @@ export const Advanced = () => {
       setClipOrder(generatedClips.map(c => c.id));
       handleNext();
       toast({
-        title: 'Clips generated',
-        description: `${generatedClips.length} clips created successfully.`,
+        title: t('clipsGenerated'),
+        description: `${generatedClips.length} ${t('clipsCreated')}`,
       });
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Generation failed',
-        description: error instanceof Error ? error.message : 'Unknown error',
+        title: t('generationFailed'),
+        description: error instanceof Error ? error.message : t('error'),
       });
     } finally {
       setIsProcessing(false);
@@ -268,14 +257,14 @@ export const Advanced = () => {
       setClips(clips.map(c => c.id === clipId ? newClip : c));
       setClipOrder(clipOrder.map(id => id === clipId ? newClip.id : id));
       toast({
-        title: 'Clip regenerated',
-        description: 'Your clip has been updated.',
+        title: t('clipRegenerated'),
+        description: t('clipUpdated'),
       });
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Regeneration failed',
-        description: error instanceof Error ? error.message : 'Unknown error',
+        title: t('regenerationFailed'),
+        description: error instanceof Error ? error.message : t('error'),
       });
     } finally {
       setRegeneratingClipId(null);
@@ -286,8 +275,8 @@ export const Advanced = () => {
     if (!selectedTransition) {
       toast({
         variant: 'destructive',
-        title: 'No transition selected',
-        description: 'Please select a transition preset.',
+        title: t('noTransitionSelected'),
+        description: t('selectTransition'),
       });
       return;
     }
@@ -313,14 +302,14 @@ export const Advanced = () => {
       setFinalVideo(video);
       handleNext();
       toast({
-        title: 'Montage complete!',
-        description: 'Your video is ready to view.',
+        title: t('montageComplete'),
+        description: t('videoReadyView'),
       });
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Montage failed',
-        description: error instanceof Error ? error.message : 'Unknown error',
+        title: t('montageFailed'),
+        description: error instanceof Error ? error.message : t('error'),
       });
     } finally {
       setIsProcessing(false);
@@ -384,8 +373,8 @@ export const Advanced = () => {
           {currentStep === 0 && (
             <div className="animate-fade-in space-y-8">
               <div className="text-center">
-                <h2 className="text-3xl font-bold text-foreground mb-4 tracking-wide">Upload Photos</h2>
-                <p className="text-muted text-lg font-medium tracking-wide">Add up to 10 real-estate photos to begin</p>
+                <h2 className="text-3xl font-bold text-foreground mb-4 tracking-wide">{t('uploadPhotosTitle')}</h2>
+                <p className="text-muted text-lg font-medium tracking-wide">{t('uploadPhotosDescription')}</p>
               </div>
 
               <PhotoUploader photos={photos} onPhotosChange={setPhotos} />
@@ -398,7 +387,7 @@ export const Advanced = () => {
                   size="lg"
                   className="gap-3 px-10 py-6 text-lg shadow-intense hover:scale-105 transition-transform"
                 >
-                  Analyze Photos
+                  {t('analyzePhotos')}
                   <ArrowRight className="h-5 w-5" />
                 </Button>
               </div>
@@ -409,8 +398,8 @@ export const Advanced = () => {
           {currentStep === 1 && (
             <div className="animate-fade-in space-y-8">
               <div className="text-center">
-                <h2 className="text-3xl font-bold text-foreground mb-4 tracking-wide">Quality Analysis</h2>
-                <p className="text-muted text-lg font-medium tracking-wide">Review grades and filter by detected objects</p>
+                <h2 className="text-3xl font-bold text-foreground mb-4 tracking-wide">{t('qualityAnalysisTitle')}</h2>
+                <p className="text-muted text-lg font-medium tracking-wide">{t('qualityAnalysisDescription')}</p>
               </div>
 
               {allObjects.length > 0 && (
@@ -443,7 +432,7 @@ export const Advanced = () => {
               <div className="flex justify-between">
                 <Button variant="outline" size="lg" onClick={handleBack} className="gap-3 px-8 py-6 text-lg hover:border-primary/50">
                   <ArrowLeft className="h-5 w-5" />
-                  Back
+                  {t('back')}
                 </Button>
                 <Button 
                   onClick={handleGenerateClips} 
@@ -452,7 +441,7 @@ export const Advanced = () => {
                   size="lg"
                   className="gap-3 px-10 py-6 text-lg shadow-intense hover:scale-105 transition-transform"
                 >
-                  Generate Clips
+                  {t('generateClips')}
                   <ArrowRight className="h-5 w-5" />
                 </Button>
               </div>
@@ -470,8 +459,8 @@ export const Advanced = () => {
           {currentStep === 2 && (
             <div className="animate-fade-in space-y-8">
               <div className="text-center">
-                <h2 className="text-3xl font-bold text-foreground mb-4 tracking-wide">Generated Clips</h2>
-                <p className="text-muted text-lg font-medium tracking-wide">Review, regenerate, and arrange your clips</p>
+                <h2 className="text-3xl font-bold text-foreground mb-4 tracking-wide">{t('generatedClipsTitle')}</h2>
+                <p className="text-muted text-lg font-medium tracking-wide">{t('generatedClipsDescription')}</p>
               </div>
 
               <div className="grid lg:grid-cols-3 gap-6">
@@ -505,7 +494,7 @@ export const Advanced = () => {
               <div className="flex justify-between">
                 <Button variant="outline" size="lg" onClick={handleBack} className="gap-3 px-8 py-6 text-lg hover:border-primary/50">
                   <ArrowLeft className="h-5 w-5" />
-                  Back
+                  {t('back')}
                 </Button>
                 <Button 
                   onClick={handleNext} 
@@ -513,7 +502,7 @@ export const Advanced = () => {
                   size="lg"
                   className="gap-3 px-10 py-6 text-lg shadow-intense hover:scale-105 transition-transform"
                 >
-                  Choose Transitions
+                  {t('chooseTransitions')}
                   <ArrowRight className="h-5 w-5" />
                 </Button>
               </div>
@@ -524,16 +513,23 @@ export const Advanced = () => {
           {currentStep === 3 && (
             <div className="animate-fade-in space-y-8">
               <div className="text-center">
-                <h2 className="text-3xl font-bold text-foreground mb-4 tracking-wide">Transition Style</h2>
-                <p className="text-muted text-lg font-medium tracking-wide">Select how clips flow into each other</p>
+                <h2 className="text-3xl font-bold text-foreground mb-4 tracking-wide">{t('transitionStyleTitle')}</h2>
+                <p className="text-muted text-lg font-medium tracking-wide">{t('transitionStyleDescription')}</p>
               </div>
 
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {TRANSITION_PRESETS.map(({ preset, description }) => (
+                {TRANSITION_PRESETS.map(({ preset, descriptionKey }) => (
                   <TransitionCard
                     key={preset}
                     preset={preset}
-                    description={description}
+                    title={
+                      preset === 'Cinematic Dissolve' ? t('cinematicDissolve') :
+                      preset === 'Cut + Motion Blur' ? t('cutMotionBlur') :
+                      preset === 'Wipe (Minimal)' ? t('wipeMinimal') :
+                      preset === 'Parallax Slide' ? t('parallaxSlide') :
+                      t('softFadeGold')
+                    }
+                    description={t(descriptionKey as any)}
                     isSelected={selectedTransition === preset}
                     onSelect={() => setSelectedTransition(preset)}
                   />
@@ -543,7 +539,7 @@ export const Advanced = () => {
               <div className="flex justify-between">
                 <Button variant="outline" size="lg" onClick={handleBack} className="gap-3 px-8 py-6 text-lg hover:border-primary/50">
                   <ArrowLeft className="h-5 w-5" />
-                  Back
+                  {t('back')}
                 </Button>
                 <Button
                   onClick={handleCreateMontage}
@@ -553,7 +549,7 @@ export const Advanced = () => {
                   className="gap-3 px-10 py-6 text-lg shadow-intense hover:scale-105 transition-transform"
                 >
                   <Sparkles className="h-5 w-5" />
-                  Create Final Montage
+                  {t('createFinalMontage')}
                 </Button>
               </div>
             </div>
@@ -565,11 +561,9 @@ export const Advanced = () => {
               {isProcessing ? (
                 <div className="max-w-2xl mx-auto py-20">
                   <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold text-foreground mb-4 tracking-wide">
-                      Creating your montage
-                    </h2>
+                    <h2 className="text-3xl font-bold text-foreground mb-4 tracking-wide">{t('creatingMontage')}</h2>
                     <p className="text-muted text-lg font-medium tracking-wide">
-                      Applying {selectedTransition} transitions…
+                      {t('applyingTransitions')} {selectedTransition}
                     </p>
                   </div>
                   <ProgressStages stages={processingStages} />
@@ -577,11 +571,9 @@ export const Advanced = () => {
               ) : finalVideo ? (
                 <>
                   <div className="text-center">
-                    <h2 className="text-4xl font-bold text-foreground mb-4 tracking-wide">
-                      Your montage is ready! 🎬
-                    </h2>
+                    <h2 className="text-4xl font-bold text-foreground mb-4 tracking-wide">{t('montageCompleteTitle')}</h2>
                     <p className="text-muted text-lg font-medium tracking-wide">
-                      Professional video created with {selectedTransition}
+                      {t('montageCompleteDescription')} {selectedTransition}
                     </p>
                   </div>
 
@@ -598,7 +590,7 @@ export const Advanced = () => {
                       className="gap-3 px-8 py-6 text-lg hover:border-primary/50"
                     >
                       <ArrowLeft className="h-5 w-5" />
-                      Edit Transitions
+                      {t('editTransitions')}
                     </Button>
                   </div>
                 </>

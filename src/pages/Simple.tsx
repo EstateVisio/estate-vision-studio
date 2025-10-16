@@ -121,8 +121,8 @@ export const Simple = () => {
     if (photos.length === 0) {
       toast({
         variant: 'destructive',
-        title: 'No photos',
-        description: 'Please upload at least one photo to continue.',
+        title: t('noPhotos'),
+        description: t('uploadAtLeastOne'),
       });
       return;
     }
@@ -130,9 +130,9 @@ export const Simple = () => {
     setState('processing');
     
     const processingStages: ProcessingStage[] = [
-      { label: 'Analyzing photos…', progress: 0, isComplete: false },
-      { label: 'Generating scenes…', progress: 0, isComplete: false },
-      { label: 'Stitching preview…', progress: 0, isComplete: false },
+      { label: t('analyzingPhotos'), progress: 0, isComplete: false },
+      { label: t('generatingScenes'), progress: 0, isComplete: false },
+      { label: t('stitchingPreview'), progress: 0, isComplete: false },
     ];
     setStages(processingStages);
 
@@ -159,15 +159,15 @@ export const Simple = () => {
       }
       
       toast({
-        title: 'Video ready!',
-        description: 'Your montage has been created successfully.',
+        title: t('videoReady'),
+        description: t('montageCreated'),
       });
     } catch (error) {
       setState('error');
       toast({
         variant: 'destructive',
-        title: 'Processing failed',
-        description: error instanceof Error ? error.message : 'Unknown error occurred',
+        title: t('processingFailed'),
+        description: error instanceof Error ? error.message : t('error'),
       });
     }
   };
@@ -207,8 +207,8 @@ export const Simple = () => {
     document.body.removeChild(link);
     
     toast({
-      title: 'Download started',
-      description: 'Your video is being downloaded.',
+      title: t('downloadStarted'),
+      description: t('videoDownloading'),
     });
   };
 
@@ -222,11 +222,9 @@ export const Simple = () => {
         {state === 'idle' && (
           <div className="max-w-5xl mx-auto space-y-8 animate-fade-in">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-foreground mb-4 tracking-wide">
-                Simple Flow
-              </h2>
+              <h2 className="text-4xl font-bold text-foreground mb-4 tracking-wide">{t('simpleFlowPageTitle')}</h2>
               <p className="text-muted text-lg font-medium tracking-wide max-w-2xl mx-auto">
-                Upload your photos and let us create a beautiful video montage automatically
+                {t('simpleFlowPageDescription')}
               </p>
             </div>
 
@@ -241,7 +239,7 @@ export const Simple = () => {
                 className="gap-3 px-12 py-6 text-lg shadow-intense hover:scale-105 transition-transform"
               >
                 <Sparkles className="h-6 w-6" />
-                Create Video
+                {t('createVideo')}
               </Button>
             </div>
           </div>
@@ -250,11 +248,9 @@ export const Simple = () => {
         {state === 'processing' && (
           <div className="max-w-2xl mx-auto py-20 animate-fade-in">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-foreground mb-4 tracking-wide">
-                Creating your montage
-              </h2>
+              <h2 className="text-3xl font-bold text-foreground mb-4 tracking-wide">{t('creatingMontage')}</h2>
               <p className="text-muted text-lg font-medium tracking-wide">
-                We're taking a closer look at lighting and framing…
+                {t('creatingDescription')}
               </p>
             </div>
             <ProgressStages stages={stages} />
@@ -264,11 +260,9 @@ export const Simple = () => {
         {state === 'complete' && result && (
           <div className="max-w-5xl mx-auto space-y-10 animate-fade-in">
             <div className="text-center mb-8">
-              <h2 className="text-4xl font-bold text-foreground mb-4 tracking-wide">
-                Your montage is ready! 🎬
-              </h2>
+              <h2 className="text-4xl font-bold text-foreground mb-4 tracking-wide">{t('montageReady')}</h2>
               <p className="text-muted text-lg font-medium tracking-wide">
-                Preview your cinematic video below
+                {t('previewVideo')}
               </p>
             </div>
 
@@ -285,7 +279,7 @@ export const Simple = () => {
                 className="gap-3 px-10 py-6 text-lg shadow-intense hover:scale-105 transition-transform"
               >
                 <Download className="h-5 w-5" />
-                Download Video
+                {t('downloadVideo')}
               </Button>
               <Button 
                 onClick={navigateToAdvanced} 
@@ -303,11 +297,9 @@ export const Simple = () => {
         {state === 'error' && (
           <div className="max-w-2xl mx-auto py-20 text-center animate-fade-in">
             <div className="bg-destructive/20 rounded-2xl p-12 shadow-card">
-              <h2 className="text-3xl font-bold text-destructive mb-4 tracking-wide">
-                Something went wrong
-              </h2>
+              <h2 className="text-3xl font-bold text-destructive mb-4 tracking-wide">{t('somethingWrong')}</h2>
               <p className="text-muted text-lg font-medium mb-8">
-                Don't worry, you can try again
+                {t('dontWorry')}
               </p>
               <Button 
                 onClick={() => setState('idle')} 
@@ -316,7 +308,7 @@ export const Simple = () => {
                 className="gap-3 px-10 py-6 text-lg"
               >
                 <RotateCcw className="h-5 w-5" />
-                Try Again
+                {t('tryAgain')}
               </Button>
             </div>
           </div>

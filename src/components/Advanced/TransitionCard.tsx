@@ -7,6 +7,7 @@ type TransitionCardProps = {
   description: string;
   isSelected: boolean;
   onSelect: () => void;
+  title?: string; // optional localized title to display instead of preset value
 };
 
 export const TransitionCard = ({
@@ -14,6 +15,7 @@ export const TransitionCard = ({
   description,
   isSelected,
   onSelect,
+  title,
 }: TransitionCardProps) => {
   return (
     <div
@@ -38,7 +40,7 @@ export const TransitionCard = ({
       {/* Content */}
       <div className="space-y-4">
         <h3 className="text-xl font-bold text-card-foreground pr-12 tracking-wide">
-          {preset}
+          {title ?? preset}
         </h3>
         <p className="text-base text-muted leading-relaxed font-medium">
           {description}

@@ -6,6 +6,7 @@ import { VideoPlayer } from '@/components/VideoPlayer';
 import { RefreshCw, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Textarea } from '@/components/ui/textarea';
+import { useLanguage } from '@/hooks/useLanguage';
 
 type TweakOption = {
   id: string;
@@ -14,41 +15,41 @@ type TweakOption = {
   icon: string;
 };
 
-const TWEAK_OPTIONS: TweakOption[] = [
+const getTweakOptions = (t: (key: string) => string): TweakOption[] => [
   {
     id: 'hallucinations',
-    label: 'Fix Hallucinations',
-    instruction: 'Remove any AI hallucinations or unrealistic elements, keep only authentic real estate features',
+    label: t('fixHallucinations'),
+    instruction: t('fixHallucinationsDesc'),
     icon: '🔍',
   },
   {
     id: 'static',
-    label: 'Add Movement',
-    instruction: 'Add subtle camera movement and motion to make the video more dynamic and engaging',
+    label: t('addMovement'),
+    instruction: t('addMovementDesc'),
     icon: '📹',
   },
   {
     id: 'lighting',
-    label: 'Improve Lighting',
-    instruction: 'Enhance lighting and color grading for a more premium, professional look',
+    label: t('improveLighting'),
+    instruction: t('improveLightingDesc'),
     icon: '💡',
   },
   {
     id: 'warmer',
-    label: 'Warmer Tone',
-    instruction: 'Apply warmer color tones for a more inviting, cozy atmosphere',
+    label: t('warmerTone'),
+    instruction: t('warmerToneDesc'),
     icon: '🌅',
   },
   {
     id: 'sharper',
-    label: 'Increase Sharpness',
-    instruction: 'Enhance sharpness and clarity of details throughout the clip',
+    label: t('increaseSharpness'),
+    instruction: t('increaseSharpnessDesc'),
     icon: '✨',
   },
   {
     id: 'slower',
-    label: 'Slow Motion',
-    instruction: 'Slow down the pace for a more cinematic, elegant feel',
+    label: t('slowMotion'),
+    instruction: t('slowMotionDesc'),
     icon: '🎬',
   },
 ];
@@ -68,8 +69,11 @@ export const ClipTweakDialog = ({
   onRegenerate,
   isRegenerating,
 }: ClipTweakDialogProps) => {
+  const { t } = useLanguage();
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [customInstruction, setCustomInstruction] = useState('');
+  
+  const TWEAK_OPTIONS = getTweakOptions(t);
 
   const handleToggleOption = (optionId: string) => {
     setSelectedOptions(prev =>
@@ -107,7 +111,7 @@ export const ClipTweakDialog = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold">Tweak Clip</DialogTitle>
+          <DialogTitle className="text-xl font-bold">{t('tweakClip')}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-6">
@@ -133,7 +137,7 @@ export const ClipTweakDialog = ({
           <div className="space-y-3">
             <h3 className="text-sm font-semibold text-card-foreground flex items-center gap-2">
               <Sparkles className="h-4 w-4 text-primary" />
-              Quick Tweaks
+              {t('quickTweaks')}
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {TWEAK_OPTIONS.map(option => (
@@ -161,10 +165,10 @@ export const ClipTweakDialog = ({
           {/* Custom Instructions */}
           <div className="space-y-2">
             <label className="text-sm font-semibold text-card-foreground">
-              Custom Instructions (Optional)
+              {t('customInstructions')}
             </label>
             <Textarea
-              placeholder="E.g., focus on the fireplace, add golden hour lighting..."
+              placeholder={t('customInstructionsPlaceholder')}
               value={customInstruction}
               onChange={(e) => setCustomInstruction(e.target.value)}
               className="min-h-[80px] text-sm"
@@ -181,7 +185,7 @@ export const ClipTweakDialog = ({
                 onOpenChange(false);
               }}
             >
-              Cancel
+              {t('cancel')}
             </Button>
             <Button
               onClick={handleRegenerate}
@@ -191,12 +195,12 @@ export const ClipTweakDialog = ({
               {isRegenerating ? (
                 <>
                   <RefreshCw className="h-4 w-4 animate-spin" />
-                  Regenerating...
+                  {t('regenerating')}
                 </>
               ) : (
                 <>
                   <RefreshCw className="h-4 w-4" />
-                  Regenerate Clip
+                  {t('regenerateClip')}
                 </>
               )}
             </Button>

@@ -7,14 +7,17 @@ import { mockProjects } from '@/fixtures/projectData';
 import { getAllProjects } from '@/services/projectStore';
 import { Project } from '@/types/project';
 import { format } from 'date-fns';
+import { enUS, bg as bgLocale } from 'date-fns/locale';
 import { CreateProjectDialog } from '@/components/CreateProjectDialog';
 import { useLanguage } from '@/hooks/useLanguage';
 
 export const Projects = () => {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [projects, setProjects] = useState<Project[]>([]);
+  
+  const dateLocale = language === 'bg' ? bgLocale : enUS;
 
   // Load projects from cache on component mount
   useEffect(() => {
@@ -49,9 +52,9 @@ export const Projects = () => {
         {/* Header - Cinematic */}
         <div className="flex items-center justify-between mb-16 animate-fade-in">
           <div>
-            <h1 className="text-5xl font-bold mb-3 tracking-wide text-foreground">My Projects</h1>
+            <h1 className="text-5xl font-bold mb-3 tracking-wide text-foreground">{t('projectsTitle')}</h1>
             <p className="text-muted-foreground text-lg tracking-wide font-medium">
-              Create and manage your real estate video projects
+              {t('projectsSubtitle')}
             </p>
           </div>
           <Button 
@@ -63,7 +66,7 @@ export const Projects = () => {
             <div className="flex items-center justify-center w-full">
               <Plus className="h-6 w-6 transition-all duration-300 group-hover:mr-2 flex-shrink-0" />
               <span className="absolute opacity-0 whitespace-nowrap transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:relative text-lg ml-0">
-                Create New
+                {t('newProject')}
               </span>
             </div>
           </Button>
@@ -135,15 +138,15 @@ export const Projects = () => {
                 <div className="space-y-2.5 text-sm text-card-foreground/70 font-medium">
                   <div className="flex items-center gap-2">
                     <Image className="h-4 w-4 text-primary" />
-                    <span>{project.photosCount} photos</span>
+                    <span>{project.photosCount} {t('photos')}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-primary" />
-                    <span>Created {format(project.createdAt, 'MMM d, yyyy')}</span>
+                    <span>{t('created')} {format(project.createdAt, 'MMM d, yyyy', { locale: dateLocale })}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Clock className="h-4 w-4 text-primary" />
-                    <span>Updated {format(project.updatedAt, 'MMM d, yyyy')}</span>
+                    <span>{t('updated')} {format(project.updatedAt, 'MMM d, yyyy', { locale: dateLocale })}</span>
                   </div>
                 </div>
               </div>
@@ -154,9 +157,9 @@ export const Projects = () => {
         {/* Empty State - Premium */}
         {projects.length === 0 && (
           <div className="text-center py-32 animate-fade-in">
-            <h3 className="text-3xl font-bold mb-4 tracking-wide text-foreground">No projects yet</h3>
+            <h3 className="text-3xl font-bold mb-4 tracking-wide text-foreground">{t('noProjectsTitle')}</h3>
             <p className="text-muted-foreground mb-12 text-lg tracking-wide max-w-md mx-auto">
-              Get started by creating your first cinematic real estate video project
+              {t('noProjectsDescription')}
             </p>
             <Button 
               onClick={() => setIsDialogOpen(true)} 
@@ -167,7 +170,7 @@ export const Projects = () => {
               <div className="flex items-center justify-center w-full">
                 <Plus className="h-6 w-6 transition-all duration-300 group-hover:mr-2 flex-shrink-0" />
                 <span className="absolute opacity-0 whitespace-nowrap transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:relative text-lg ml-0">
-                  Create New
+                  {t('newProject')}
                 </span>
               </div>
             </Button>

@@ -146,7 +146,7 @@ export const CreateProjectDialog = ({ open, onOpenChange }: CreateProjectDialogP
               onClick={handleClose}
               disabled={isSubmitting}
               className="text-[#6C6D6D] hover:text-[#323434] transition-colors disabled:opacity-50"
-              aria-label="Close"
+              aria-label={t('close')}
             >
               <X className="h-5 w-5" />
             </button>

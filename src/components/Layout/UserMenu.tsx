@@ -138,7 +138,7 @@ export const UserMenu = () => {
 
           {/* Optional Footer */}
           <div className="mt-4 pt-3 border-t border-black/[0.06]">
-            <p className="text-xs text-muted-foreground text-center">v1.0.0</p>
+            <p className="text-xs text-muted-foreground text-center">{t('version')}</p>
           </div>
         </DropdownMenuContent>
       </DropdownMenu>

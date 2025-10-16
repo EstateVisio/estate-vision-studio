@@ -126,7 +126,7 @@ export const UserSettingsDialog = ({ open, onOpenChange, user }: UserSettingsDia
       toast({
         variant: 'destructive',
         title: t('error'),
-        description: error instanceof Error ? error.message : 'Failed to update settings',
+        description: error instanceof Error ? error.message : t('failedToUpdateSettings'),
       });
     } finally {
       setIsLoading(false);
@@ -170,7 +170,7 @@ export const UserSettingsDialog = ({ open, onOpenChange, user }: UserSettingsDia
             onClick={handleClose}
             disabled={isLoading}
             className="absolute top-6 right-6 p-2 rounded-lg hover:bg-black/5 transition-colors disabled:opacity-50"
-            aria-label="Close"
+            aria-label={t('close')}
           >
             <X className="h-5 w-5 text-accent" />
           </button>
@@ -194,7 +194,7 @@ export const UserSettingsDialog = ({ open, onOpenChange, user }: UserSettingsDia
                         {...field}
                         disabled={isLoading}
                         className="h-12 bg-white border-border focus:border-primary focus:ring-primary placeholder:text-black text-black"
-                        placeholder="John Doe"
+                        placeholder={t('namePlaceholder')}
                       />
                     </FormControl>
                     <FormMessage className="text-xs text-muted-foreground" />
@@ -216,7 +216,7 @@ export const UserSettingsDialog = ({ open, onOpenChange, user }: UserSettingsDia
                         type="email"
                         disabled={isLoading}
                         className="h-12 bg-white border-border focus:border-primary focus:ring-primary placeholder:text-black text-black"
-                        placeholder="john@example.com"
+                        placeholder={t('emailPlaceholder')}
                       />
                     </FormControl>
                     <FormMessage className="text-xs text-muted-foreground" />

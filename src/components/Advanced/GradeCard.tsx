@@ -3,6 +3,7 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/hooks/useLanguage';
 
 type GradeCardProps = {
   photo: Photo;
@@ -20,6 +21,7 @@ const GRADE_COLORS = {
 };
 
 export const GradeCard = ({ photo, analysis, onClick }: GradeCardProps) => {
+  const { t } = useLanguage();
   const { grade } = analysis;
   const avgScore = Math.round(
     (grade.exposure + grade.sharpness + grade.framing + grade.lighting) / 4
@@ -62,17 +64,17 @@ export const GradeCard = ({ photo, analysis, onClick }: GradeCardProps) => {
           </p>
           <Button variant="ghost" size="sm" className="h-9 gap-2 text-xs hover:bg-primary/10">
             <Info className="h-4 w-4" />
-            Details
+            {t('details')}
           </Button>
         </div>
 
         {/* Score Bars with Gold Accent */}
         <div className="space-y-2">
           {[
-            { label: 'Exposure', value: grade.exposure },
-            { label: 'Sharpness', value: grade.sharpness },
-            { label: 'Framing', value: grade.framing },
-            { label: 'Lighting', value: grade.lighting },
+            { label: t('exposure'), value: grade.exposure },
+            { label: t('sharpness'), value: grade.sharpness },
+            { label: t('framing'), value: grade.framing },
+            { label: t('lighting'), value: grade.lighting },
           ].map(({ label, value }) => (
             <div key={label} className="flex items-center gap-3">
               <span className="text-xs font-semibold text-muted w-20 flex-shrink-0">{label}</span>
@@ -89,7 +91,7 @@ export const GradeCard = ({ photo, analysis, onClick }: GradeCardProps) => {
 
         <div className="pt-3 border-t border-border">
           <p className="text-sm text-muted font-medium">
-            Overall score: <span className="font-bold text-primary text-base">{avgScore}/100</span>
+            {t('overallScore')} <span className="font-bold text-primary text-base">{avgScore}/100</span>
           </p>
         </div>
       </div>

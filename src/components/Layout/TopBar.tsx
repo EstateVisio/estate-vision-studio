@@ -1,15 +1,7 @@
-import { ArrowLeft, HelpCircle, Languages } from 'lucide-react';
+import { ArrowLeft, Languages } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import logo from '@/assets/logo.png';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
 import { useLanguage } from '@/hooks/useLanguage';
 import {
   DropdownMenu,
@@ -64,44 +56,6 @@ export const TopBar = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-
-            {/* How it Works */}
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="ghost" className="gap-2 h-10 px-4 text-sm">
-                  <HelpCircle className="h-5 w-5" />
-                  <span className="hidden sm:inline">{t('howItWorks')}</span>
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-2xl">
-                <DialogHeader>
-                  <DialogTitle>{t('helpDialogTitle')}</DialogTitle>
-                  <DialogDescription className="text-left space-y-4 pt-4">
-                    <div>
-                      <h3 className="font-semibold text-card-foreground mb-2">{t('simpleFlowTitle')}</h3>
-                      <p className="text-sm text-muted">
-                        {t('simpleFlowDescription')}
-                      </p>
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-card-foreground mb-2">{t('advancedFlowTitle')}</h3>
-                      <ol className="text-sm text-muted space-y-2 list-decimal list-inside">
-                        <li>{t('advancedFlowStep1')}</li>
-                        <li>{t('advancedFlowStep2')}</li>
-                        <li>{t('advancedFlowStep3')}</li>
-                        <li>{t('advancedFlowStep4')}</li>
-                        <li>{t('advancedFlowStep5')}</li>
-                      </ol>
-                    </div>
-                    <div className="bg-warmSand/20 p-3 rounded-xl">
-                      <p className="text-sm text-card-foreground">
-                        <strong>{t('demoModeTitle')}</strong> {t('demoModeDescription')}
-                      </p>
-                    </div>
-                  </DialogDescription>
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
 
             {/* User Menu */}
             <UserMenu />

@@ -1,6 +1,9 @@
 import logoLight from '@/assets/logo.png';
+import { useLanguage } from '@/hooks/useLanguage';
 
 export const Footer = () => {
+  const { t } = useLanguage();
+  
   return (
     <footer className="mt-auto bg-gradient-to-b from-[#323434] to-[#3a3b3b]">
       <div className="mx-auto max-w-[1280px] px-6 py-8 md:py-10 flex flex-col items-center text-center">
@@ -10,7 +13,7 @@ export const Footer = () => {
           className="h-10 md:h-12 w-auto object-contain mb-3 md:mb-4"
         />
         <p className="text-[#F8F9FA]/95 text-sm md:text-base tracking-wide max-w-md leading-relaxed">
-          Луксозни визии, задвижвани от AI.
+          {t('luxuryVisions')}
         </p>
       </div>
     </footer>

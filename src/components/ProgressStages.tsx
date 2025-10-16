@@ -1,12 +1,14 @@
 import { ProcessingStage } from '@/types/estate';
 import { Loader2, CheckCircle2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/hooks/useLanguage';
 
 type ProgressStagesProps = {
   stages: ProcessingStage[];
 };
 
 export const ProgressStages = ({ stages }: ProgressStagesProps) => {
+  const { t } = useLanguage();
   const currentStageIndex = stages.findIndex(s => !s.isComplete);
   const allComplete = stages.every(s => s.isComplete);
 
@@ -69,7 +71,7 @@ export const ProgressStages = ({ stages }: ProgressStagesProps) => {
       
       {allComplete && (
         <div className="mt-8 text-center animate-bounce-soft">
-          <p className="text-lg font-bold text-primary">Processing complete! 🎬</p>
+          <p className="text-lg font-bold text-primary">{t('processingComplete')}</p>
         </div>
       )}
     </div>

@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { VideoPlayer } from '@/components/VideoPlayer';
 import { Edit3 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/hooks/useLanguage';
 
 type ClipCardProps = {
   clip: Clip;
@@ -11,6 +12,8 @@ type ClipCardProps = {
 };
 
 export const ClipCard = ({ clip, onTweakClick, onVideoClick }: ClipCardProps) => {
+  const { t } = useLanguage();
+  
   return (
     <div className="bg-card rounded-2xl overflow-hidden shadow-card hover:shadow-intense hover:scale-[1.03] hover:-translate-y-1 transition-all duration-500 group">
       {/* Video - Clickable with elegant hover */}
@@ -46,7 +49,7 @@ export const ClipCard = ({ clip, onTweakClick, onVideoClick }: ClipCardProps) =>
             className="gap-2 flex-shrink-0 hover:bg-primary/10 hover:border-primary/50 transition-all"
           >
             <Edit3 className="h-4 w-4" />
-            Tweak
+            {t('tweak')}
           </Button>
         </div>
       </div>

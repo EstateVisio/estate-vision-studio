@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/sheet';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/hooks/useLanguage';
 
 type AnalysisDetailDrawerProps = {
   photo: Photo | null;
@@ -31,14 +32,16 @@ export const AnalysisDetailDrawer = ({
   open,
   onOpenChange,
 }: AnalysisDetailDrawerProps) => {
+  const { t } = useLanguage();
+  
   if (!photo || !analysis) return null;
 
   const { grade, objects } = analysis;
   const scores = [
-    { label: 'Exposure', value: grade.exposure, max: 100 },
-    { label: 'Sharpness', value: grade.sharpness, max: 100 },
-    { label: 'Framing', value: grade.framing, max: 100 },
-    { label: 'Lighting', value: grade.lighting, max: 100 },
+    { label: t('exposure'), value: grade.exposure, max: 100 },
+    { label: t('sharpness'), value: grade.sharpness, max: 100 },
+    { label: t('framing'), value: grade.framing, max: 100 },
+    { label: t('lighting'), value: grade.lighting, max: 100 },
   ];
 
   // Calculate radial chart data
@@ -62,9 +65,9 @@ export const AnalysisDetailDrawer = ({
       <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-3">
-            Quality Analysis
+            {t('qualityAnalysis')}
             <Badge className={cn("text-base", GRADE_COLORS[grade.overall])}>
-              Grade {grade.overall}
+              {t('grade')} {grade.overall}
             </Badge>
           </SheetTitle>
           <SheetDescription>{photo.name}</SheetDescription>
@@ -82,7 +85,7 @@ export const AnalysisDetailDrawer = ({
 
           {/* Radial Chart */}
           <div className="bg-card rounded-xl p-6">
-            <h3 className="text-sm font-semibold text-card-foreground mb-4">Score Breakdown</h3>
+            <h3 className="text-sm font-semibold text-card-foreground mb-4">{t('scoreBreakdown')}</h3>
             <svg viewBox="0 0 200 200" className="w-full max-w-xs mx-auto">
               {/* Grid circles */}
               {[0.25, 0.5, 0.75, 1].map(r => (
@@ -150,14 +153,14 @@ export const AnalysisDetailDrawer = ({
 
           {/* Recommendation */}
           <div className="bg-warmSand/20 rounded-xl p-4">
-            <h3 className="text-sm font-semibold text-card-foreground mb-2">Recommendation</h3>
+            <h3 className="text-sm font-semibold text-card-foreground mb-2">{t('recommendation')}</h3>
             <p className="text-sm text-muted">{grade.recommendation}</p>
           </div>
 
           {/* Detected Objects */}
           {objects.length > 0 && (
             <div>
-              <h3 className="text-sm font-semibold text-card-foreground mb-3">Detected Objects</h3>
+              <h3 className="text-sm font-semibold text-card-foreground mb-3">{t('detectedObjects')}</h3>
               <div className="flex flex-wrap gap-2">
                 {objects.map(obj => (
                   <Badge key={obj.name} variant="secondary" className="gap-2">

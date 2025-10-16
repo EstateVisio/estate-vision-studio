@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Photo } from '@/types/estate';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/hooks/useLanguage';
 
 type PhotoUploaderProps = {
   photos: Photo[];
@@ -19,6 +20,7 @@ export const PhotoUploader = ({
   onReorder,
 }: PhotoUploaderProps) => {
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const handleFileSelect = useCallback(
     async (files: FileList | null) => {
@@ -29,8 +31,8 @@ export const PhotoUploader = ({
         if (!isValid) {
           toast({
             variant: 'destructive',
-            title: 'Invalid file type',
-            description: `${file.name} is not a JPEG or PNG image.`,
+            title: t('invalidFileType'),
+            description: t('invalidFileTypeDesc').replace('{filename}', file.name),
           });
         }
         return isValid;
@@ -39,8 +41,10 @@ export const PhotoUploader = ({
       if (photos.length + validFiles.length > maxPhotos) {
         toast({
           variant: 'destructive',
-          title: 'Too many photos',
-          description: `Maximum ${maxPhotos} photos allowed. You tried to add ${validFiles.length} more.`,
+          title: t('tooManyPhotos'),
+          description: t('tooManyPhotosDesc')
+            .replace('{maxPhotos}', maxPhotos.toString())
+            .replace('{count}', validFiles.length.toString()),
         });
         return;
       }
@@ -65,18 +69,20 @@ export const PhotoUploader = ({
         onPhotosChange([...photos, ...newPhotos]);
 
         toast({
-          title: 'Photos added',
-          description: `${newPhotos.length} photo${newPhotos.length > 1 ? 's' : ''} added successfully.`,
+          title: t('photosAdded'),
+          description: t('photosAddedDesc')
+            .replace('{count}', newPhotos.length.toString())
+            .replace('{plural}', newPhotos.length > 1 ? 's' : ''),
         });
       } catch (err) {
         toast({
           variant: 'destructive',
-          title: 'Failed to read files',
-          description: 'Please try again with different images.',
+          title: t('failedToReadFiles'),
+          description: t('failedToReadFilesDesc'),
         });
       }
     },
-    [photos, maxPhotos, onPhotosChange, toast]
+    [photos, maxPhotos, onPhotosChange, toast, t]
   );
 
   const handleDrop = useCallback(
@@ -145,10 +151,12 @@ export const PhotoUploader = ({
         <label htmlFor="photo-upload" className="cursor-pointer block">
           <Upload className="h-16 w-16 text-primary mx-auto mb-6 animate-float" />
           <h3 className="text-2xl font-bold text-card-foreground mb-3 tracking-wide">
-            Drop photos here or click to browse
+            {t('dropPhotosHere')}
           </h3>
           <p className="text-base text-muted font-medium tracking-wide">
-            JPEG or PNG • Max {maxPhotos} photos • {photos.length}/{maxPhotos} uploaded
+            {t('jpegPngMaxPhotos')
+              .replace('{maxPhotos}', maxPhotos.toString())
+              .replace('{current}', photos.length.toString())}
           </p>
         </label>
       </div>
