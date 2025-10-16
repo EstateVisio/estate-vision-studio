@@ -7,4 +7,6 @@ export interface Project {
   updatedAt: Date;
   photosCount: number;
   status: 'draft' | 'processing' | 'completed';
+  videoUrl?: string;
+  photoUrls?: string[];
 }

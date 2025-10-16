@@ -43,9 +43,41 @@ export const Projects = () => {
           {mockProjects.map((project) => (
             <Card
               key={project.id}
-              className="cursor-pointer hover:shadow-lg transition-shadow"
+              className="cursor-pointer hover:shadow-lg transition-shadow overflow-hidden"
               onClick={() => navigate(`/project/${project.id}`)}
             >
+              {/* Media Preview */}
+              {project.status === 'completed' && project.videoUrl && (
+                <div className="aspect-video bg-muted relative overflow-hidden">
+                  <video
+                    src={project.videoUrl}
+                    className="w-full h-full object-cover"
+                    muted
+                    loop
+                    playsInline
+                    onMouseEnter={(e) => e.currentTarget.play()}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.pause();
+                      e.currentTarget.currentTime = 0;
+                    }}
+                  />
+                </div>
+              )}
+              {(project.status === 'processing' || project.status === 'draft') && project.photoUrls && (
+                <div className="aspect-video bg-muted relative overflow-hidden">
+                  <div className="grid grid-cols-2 h-full">
+                    {project.photoUrls.slice(0, 4).map((url, idx) => (
+                      <img
+                        key={idx}
+                        src={url}
+                        alt={`${project.name} preview ${idx + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <CardHeader>
                 <div className="flex items-start justify-between mb-2">
                   <CardTitle className="text-xl">{project.name}</CardTitle>
