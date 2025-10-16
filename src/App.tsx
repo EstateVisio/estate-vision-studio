@@ -9,28 +9,31 @@ import { Projects } from "./pages/Projects";
 import { Simple } from "./pages/Simple";
 import { Advanced } from "./pages/Advanced";
 import NotFound from "./pages/NotFound";
+import { LanguageProvider } from "@/hooks/useLanguage";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <div className="min-h-screen flex flex-col w-full">
-          <TopBar />
-          <Routes>
-            <Route path="/" element={<Projects />} />
-            <Route path="/project/:id" element={<Simple />} />
-            <Route path="/project/:id/advanced" element={<Advanced />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <Footer />
-        </div>
-      </BrowserRouter>
-    </TooltipProvider>
+    <LanguageProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <div className="min-h-screen flex flex-col w-full">
+            <TopBar />
+            <Routes>
+              <Route path="/" element={<Projects />} />
+              <Route path="/project/:id" element={<Simple />} />
+              <Route path="/project/:id/advanced" element={<Advanced />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            <Footer />
+          </div>
+        </BrowserRouter>
+      </TooltipProvider>
+    </LanguageProvider>
   </QueryClientProvider>
 );
 
