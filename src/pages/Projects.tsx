@@ -74,7 +74,7 @@ export const Projects = () => {
                 <CardDescription className="text-foreground/70 tracking-wide">{project.description}</CardDescription>
               </CardHeader>
               <CardContent className="pb-6">
-                <div className="space-y-2 text-sm text-muted">
+                <div className="space-y-2 text-sm text-foreground/60">
                   <div className="flex items-center gap-2">
                     <Image className="h-4 w-4 text-primary/60" />
                     <span>{project.photosCount} photos</span>
