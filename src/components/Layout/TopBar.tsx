@@ -36,6 +36,7 @@ export const TopBar = () => {
         <div className="container flex items-center justify-between gap-4 py-2">
           <div className="flex items-center gap-3 min-w-0">
             <img src={logo} alt="EstateVisio" className="logo" />
+            <span className="text-xs font-semibold uppercase tracking-wider px-2 py-1 rounded-md border bg-primary/10 text-primary border-primary/20">Demo</span>
           </div>
 
           <div className="flex items-center gap-2 flex-shrink-0">

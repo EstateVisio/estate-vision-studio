@@ -10,33 +10,36 @@ import { Simple } from "./pages/Simple";
 import { Advanced } from "./pages/Advanced";
 import NotFound from "./pages/NotFound";
 import { LanguageProvider } from "@/hooks/useLanguage";
+import { PasswordGate } from "@/components/Security/PasswordGate";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <LanguageProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <div className="min-h-screen flex flex-col w-full overflow-x-hidden">
-            <TopBar />
-            <div className="flex-1 flex flex-col pt-topbar overflow-visible">
-              <Routes>
-                <Route path="/" element={<Projects />} />
-                <Route path="/project/:id" element={<Simple />} />
-                <Route path="/project/:id/advanced" element={<Advanced />} />
-                {/* Redirect bare ID to proper project route */}
-                <Route path="/:id" element={<Simple />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
+      <PasswordGate>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <div className="min-h-screen flex flex-col w-full overflow-x-hidden">
+              <TopBar />
+              <div className="flex-1 flex flex-col pt-topbar overflow-visible">
+                <Routes>
+                  <Route path="/" element={<Projects />} />
+                  <Route path="/project/:id" element={<Simple />} />
+                  <Route path="/project/:id/advanced" element={<Advanced />} />
+                  {/* Redirect bare ID to proper project route */}
+                  <Route path="/:id" element={<Simple />} />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </div>
+              <Footer />
             </div>
-            <Footer />
-          </div>
-        </BrowserRouter>
-      </TooltipProvider>
+          </BrowserRouter>
+        </TooltipProvider>
+      </PasswordGate>
     </LanguageProvider>
   </QueryClientProvider>
 );
