@@ -77,10 +77,26 @@ export const Projects = () => {
                   {/* Dark overlay at bottom for title */}
                   <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-background/95 via-background/60 to-transparent" />
                   
-                  {/* Title overlay - appears on hover */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <h3 className="text-2xl font-bold text-card-foreground tracking-wide mb-1">{project.name}</h3>
-                    <p className="text-sm text-muted">{project.description}</p>
+                  {/* Title and Description with sliding animation */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6 overflow-hidden h-20">
+                    {/* Additional shadow gradient for description visibility */}
+                    <div className="absolute bottom-0 left-0 right-0 h-full bg-gradient-to-t from-background/90 via-background/50 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
+                    
+                    {/* Project Name - always visible, slides down on hover */}
+                    <h3 
+                      className={`relative z-10 font-bold text-primary tracking-wide transition-all duration-500 ease-in-out group-hover:translate-y-20 group-hover:opacity-0 line-clamp-2 ${
+                        project.name.length > 30 ? 'text-lg' : project.name.length > 20 ? 'text-xl' : 'text-2xl'
+                      }`}
+                      style={{
+                        textShadow: '0 0 2px rgba(0,0,0,0.8), 0 0 4px rgba(0,0,0,0.6)'
+                      }}
+                    >
+                      {project.name}
+                    </h3>
+                    {/* Project Description - slides up on hover */}
+                    <p className="relative z-10 text-sm text-primary text-center absolute bottom-6 left-0 right-0 px-6 translate-y-20 opacity-0 transition-all duration-500 ease-in-out group-hover:translate-y-0 group-hover:opacity-100 line-clamp-3">
+                      {project.description}
+                    </p>
                   </div>
                   
                   {/* Gold glow border on hover */}
