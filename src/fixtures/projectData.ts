@@ -10,6 +10,12 @@ export const mockProjects: Project[] = [
     photosCount: 24,
     status: 'completed',
     videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    photoUrls: [
+      'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400',
+      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400',
+      'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=400',
+      'https://images.unsplash.com/photo-1600210492493-0946911123ea?w=400',
+    ],
   },
   {
     id: '2',
@@ -20,6 +26,12 @@ export const mockProjects: Project[] = [
     photosCount: 18,
     status: 'completed',
     videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+    photoUrls: [
+      'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=400',
+      'https://images.unsplash.com/photo-1600047509358-9dc75507daeb?w=400',
+      'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=400',
+      'https://images.unsplash.com/photo-1600563438938-a9a27216b4f5?w=400',
+    ],
   },
   {
     id: '3',

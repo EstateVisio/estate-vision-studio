@@ -46,24 +46,8 @@ export const Projects = () => {
               className="cursor-pointer hover:shadow-lg transition-shadow overflow-hidden"
               onClick={() => navigate(`/project/${project.id}`)}
             >
-              {/* Media Preview */}
-              {project.status === 'completed' && project.videoUrl && (
-                <div className="aspect-video bg-muted relative overflow-hidden">
-                  <video
-                    src={project.videoUrl}
-                    className="w-full h-full object-cover"
-                    muted
-                    loop
-                    playsInline
-                    onMouseEnter={(e) => e.currentTarget.play()}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.pause();
-                      e.currentTarget.currentTime = 0;
-                    }}
-                  />
-                </div>
-              )}
-              {(project.status === 'processing' || project.status === 'draft') && project.photoUrls && (
+              {/* Media Preview - Show photos for all projects */}
+              {project.photoUrls && project.photoUrls.length > 0 && (
                 <div className="aspect-video bg-muted relative overflow-hidden">
                   <div className="grid grid-cols-2 h-full">
                     {project.photoUrls.slice(0, 4).map((url, idx) => (
