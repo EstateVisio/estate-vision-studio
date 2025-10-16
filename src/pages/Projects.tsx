@@ -1,29 +1,24 @@
 import { useNavigate } from 'react-router-dom';
-import { Plus, Calendar, Image, Clock } from 'lucide-react';
+import { Plus, Calendar, Image, Clock, CheckCircle2, Loader2, FileEdit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { mockProjects } from '@/fixtures/projectData';
 import { format } from 'date-fns';
 
 export const Projects = () => {
   const navigate = useNavigate();
 
-  const getStatusVariant = (status: string) => {
+  const getStatusIcon = (status: string) => {
     switch (status) {
       case 'completed':
-        return 'default';
+        return <CheckCircle2 className="h-5 w-5 text-green-500" />;
       case 'processing':
-        return 'secondary';
+        return <Loader2 className="h-5 w-5 text-blue-500 animate-spin" />;
       case 'draft':
-        return 'outline';
+        return <FileEdit className="h-5 w-5 text-muted-foreground" />;
       default:
-        return 'outline';
+        return null;
     }
-  };
-
-  const getStatusLabel = (status: string) => {
-    return status.charAt(0).toUpperCase() + status.slice(1);
   };
 
   return (
@@ -54,9 +49,9 @@ export const Projects = () => {
               <CardHeader>
                 <div className="flex items-start justify-between mb-2">
                   <CardTitle className="text-xl">{project.name}</CardTitle>
-                  <Badge variant={getStatusVariant(project.status)}>
-                    {getStatusLabel(project.status)}
-                  </Badge>
+                  <div className="flex items-center">
+                    {getStatusIcon(project.status)}
+                  </div>
                 </div>
                 <CardDescription>{project.description}</CardDescription>
               </CardHeader>
