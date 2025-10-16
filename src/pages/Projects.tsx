@@ -58,7 +58,10 @@ export const Projects = () => {
             <Card
               key={project.id}
               className="card-shell group cursor-pointer transition-all duration-500 hover:shadow-intense hover:-translate-y-2"
-              onClick={() => navigate(`/project/${project.id}`)}
+              onClick={() => {
+                console.log('Projects page - navigating to:', `/project/${project.id}`);
+                navigate(`/project/${project.id}`);
+              }}
               style={{ animationDelay: `${idx * 0.1}s` }}
             >
               {/* Cinematic Large Preview */}

@@ -6,19 +6,37 @@ import { Button } from '@/components/ui/button';
 import { Photo, ProcessingStage, FinalVideo } from '@/types/estate';
 import { mockApi } from '@/services/mockApi';
 import { useToast } from '@/hooks/use-toast';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Sparkles, RotateCcw, Download } from 'lucide-react';
 import { mockProjects } from '@/fixtures/projectData';
+import { loadProjectPhotos, saveProjectPhotos, clearProjectPhotos } from '@/lib/photoStore';
 
 type ProcessState = 'idle' | 'processing' | 'complete' | 'error';
 
 export const Simple = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
   
+  // Debug logging
+  console.log('Simple component - id:', id, 'location:', location.pathname);
+  
+  // Extract ID from pathname as fallback
+  const pathId = location.pathname.match(/\/project\/([^\/]+)/)?.[1];
+  const effectiveId = id || pathId;
+  console.log('Simple Effective ID:', effectiveId, 'from params:', id, 'from path:', pathId);
+  
+  // Redirect to proper URL format if we're on bare ID route
+  useEffect(() => {
+    if (effectiveId && !location.pathname.startsWith('/project/')) {
+      console.log('Redirecting from bare ID to proper project URL:', `/project/${effectiveId}`);
+      navigate(`/project/${effectiveId}`, { replace: true });
+    }
+  }, [effectiveId, location.pathname, navigate]);
+  
   // Get project to check if it's completed
-  const project = mockProjects.find(p => p.id === id);
+  const project = mockProjects.find(p => p.id === effectiveId);
   const isProjectCompleted = project?.status === 'completed' && project?.videoUrl;
 
   const [photos, setPhotos] = useState<Photo[]>([]);
@@ -26,7 +44,7 @@ export const Simple = () => {
   const [stages, setStages] = useState<ProcessingStage[]>([]);
   const [result, setResult] = useState<FinalVideo | null>(
     isProjectCompleted ? {
-      id: `project-${id}-video`,
+      id: `project-${effectiveId}-video`,
       url: project.videoUrl!,
       durationSec: 30,
       createdAt: new Date().toISOString(),
@@ -34,17 +52,17 @@ export const Simple = () => {
   );
 
   // Update state when project changes
-  const prevProjectId = useRef(id);
+  const prevProjectId = useRef(effectiveId);
   useEffect(() => {
-    if (prevProjectId.current !== id) {
-      prevProjectId.current = id;
-      const updatedProject = mockProjects.find(p => p.id === id);
+    if (prevProjectId.current !== effectiveId) {
+      prevProjectId.current = effectiveId;
+      const updatedProject = mockProjects.find(p => p.id === effectiveId);
       const isCompleted = updatedProject?.status === 'completed' && updatedProject?.videoUrl;
       
       if (isCompleted) {
         setState('complete');
         setResult({
-          id: `project-${id}-video`,
+          id: `project-${effectiveId}-video`,
           url: updatedProject.videoUrl!,
           durationSec: 30,
           createdAt: new Date().toISOString(),
@@ -52,10 +70,50 @@ export const Simple = () => {
       } else {
         setState('idle');
         setResult(null);
-        setPhotos([]);
+        // Don't clear photos here - let the photo loading effect handle it
       }
     }
-  }, [id]);
+  }, [effectiveId]);
+
+  // Load cached photos for this project (IndexedDB first, then localStorage)
+  useEffect(() => {
+    if (!effectiveId) return;
+    (async () => {
+      try {
+        const idb = await loadProjectPhotos(effectiveId);
+        if (idb && Array.isArray(idb)) {
+          setPhotos(idb as Photo[]);
+          localStorage.setItem(`estatevisio-photos-${effectiveId}`, JSON.stringify(idb));
+          return;
+        }
+        const raw = localStorage.getItem(`estatevisio-photos-${effectiveId}`);
+        if (raw) {
+          const parsed = JSON.parse(raw) as Photo[];
+          if (Array.isArray(parsed)) {
+            setPhotos(parsed);
+          } else {
+            setPhotos([]);
+          }
+        } else {
+          setPhotos([]);
+        }
+      } catch (e) {
+        console.error('Failed to load cached photos', e);
+        setPhotos([]);
+      }
+    })();
+  }, [effectiveId, location.pathname]); // Also reload when pathname changes (e.g., coming back from Advanced)
+
+  // Persist photos when they change (IndexedDB primary, localStorage fallback)
+  useEffect(() => {
+    if (!effectiveId) return;
+    try {
+      void saveProjectPhotos(effectiveId, photos);
+      localStorage.setItem(`estatevisio-photos-${effectiveId}`, JSON.stringify(photos));
+    } catch (e) {
+      console.error('Failed to persist photos', e);
+    }
+  }, [effectiveId, photos]);
 
   const startProcessing = async () => {
     if (photos.length === 0) {
@@ -124,6 +182,11 @@ export const Simple = () => {
     setState('idle');
     setStages([]);
     setResult(null);
+    if (effectiveId) {
+      // Clear persisted photos if user starts over
+      void clearProjectPhotos(effectiveId);
+      localStorage.removeItem(`estatevisio-photos-${effectiveId}`);
+    }
   };
 
   const downloadVideo = () => {
@@ -221,15 +284,6 @@ export const Simple = () => {
               >
                 <RotateCcw className="h-5 w-5" />
                 Start Over
-              </Button>
-              <Button 
-                onClick={() => navigate('/advanced')} 
-                variant="outline" 
-                size="lg" 
-                className="gap-3 px-10 py-6 text-lg hover:border-primary/50"
-              >
-                <Sparkles className="h-5 w-5" />
-                Try Advanced
               </Button>
             </div>
           </div>

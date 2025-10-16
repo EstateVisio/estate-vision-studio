@@ -14,9 +14,10 @@ import { VideoPlayer } from '@/components/VideoPlayer';
 import { Photo, Analysis, Clip, TransitionPreset, FinalVideo, ProcessingStage, ObjectTag } from '@/types/estate';
 import { mockApi } from '@/services/mockApi';
 import { useToast } from '@/hooks/use-toast';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Sparkles, ArrowRight, ArrowLeft, RotateCcw } from 'lucide-react';
 import { mockProjects } from '@/fixtures/projectData';
+import { loadProjectPhotos, saveProjectPhotos, clearProjectPhotos } from '@/lib/photoStore';
 
 const STEPS: Step[] = [
   { id: 'upload', label: 'Upload', description: 'Add photos' },
@@ -52,10 +53,19 @@ const TRANSITION_PRESETS: Array<{ preset: TransitionPreset; description: string 
 export const Advanced = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
   
+  // Debug logging
+  console.log('Advanced component - id:', id, 'location:', location.pathname);
+  
+  // Extract ID from pathname as fallback
+  const pathId = location.pathname.match(/\/project\/([^\/]+)/)?.[1];
+  const effectiveId = id || pathId;
+  console.log('Effective ID:', effectiveId, 'from params:', id, 'from path:', pathId);
+  
   // Get project to load its state
-  const project = mockProjects.find(p => p.id === id);
+  const project = mockProjects.find(p => p.id === effectiveId);
   const projectState = project?.advancedFlowState;
   const isProjectCompleted = project?.status === 'completed' && project?.videoUrl;
 
@@ -81,18 +91,62 @@ export const Advanced = () => {
   const [processingStages, setProcessingStages] = useState<ProcessingStage[]>([]);
   const [finalVideo, setFinalVideo] = useState<FinalVideo | null>(
     isProjectCompleted ? {
-      id: `project-${id}-video`,
+      id: `project-${effectiveId}-video`,
       url: project.videoUrl!,
       durationSec: 30,
       createdAt: new Date().toISOString(),
     } : null
   );
 
+  // Load cached photos for this project (IndexedDB first, then localStorage)
+  useEffect(() => {
+    if (!effectiveId || isProjectCompleted) return;
+    (async () => {
+      try {
+        const idb = await loadProjectPhotos(effectiveId);
+        if (idb && Array.isArray(idb)) {
+          setPhotos(idb as Photo[]);
+          // Keep localStorage in sync as a fallback snapshot
+          localStorage.setItem(`estatevisio-photos-${effectiveId}`, JSON.stringify(idb));
+          return;
+        }
+        // Fallback to localStorage
+        const raw = localStorage.getItem(`estatevisio-photos-${effectiveId}`);
+        if (raw) {
+          const parsed = JSON.parse(raw) as Photo[];
+          if (Array.isArray(parsed)) {
+            setPhotos(parsed);
+          } else {
+            setPhotos([]);
+          }
+        } else {
+          setPhotos([]);
+        }
+      } catch (e) {
+        console.error('Failed to load cached photos', e);
+        setPhotos([]);
+      }
+    })();
+  }, [effectiveId, isProjectCompleted, location.pathname]); // Also reload when pathname changes (e.g., coming back from Simple)
+
+  // Persist photos when they change (IndexedDB primary, localStorage fallback)
+  useEffect(() => {
+    if (!effectiveId || isProjectCompleted) return;
+    try {
+      // Save to IndexedDB
+      void saveProjectPhotos(effectiveId, photos);
+      // And keep localStorage in sync as a fallback snapshot
+      localStorage.setItem(`estatevisio-photos-${effectiveId}`, JSON.stringify(photos));
+    } catch (e) {
+      console.error('Failed to persist photos', e);
+    }
+  }, [effectiveId, isProjectCompleted, photos]);
+
   // Load from localStorage per project (but don't override completed projects)
   useEffect(() => {
-    if (!id || isProjectCompleted) return; // Don't load from localStorage for completed projects
+    if (!effectiveId || isProjectCompleted) return; // Don't load from localStorage for completed projects
     
-    const saved = localStorage.getItem(`estatevisio-advanced-state-${id}`);
+    const saved = localStorage.getItem(`estatevisio-advanced-state-${effectiveId}`);
     if (saved) {
       try {
         const state = JSON.parse(saved);
@@ -102,17 +156,17 @@ export const Advanced = () => {
         console.error('Failed to load state', e);
       }
     }
-  }, [id, projectState, isProjectCompleted]);
+  }, [effectiveId, projectState, isProjectCompleted]);
 
   // Save to localStorage per project (but not for completed projects)
   useEffect(() => {
-    if (!id || isProjectCompleted) return; // Don't save to localStorage for completed projects
+    if (!effectiveId || isProjectCompleted) return; // Don't save to localStorage for completed projects
     
-    localStorage.setItem(`estatevisio-advanced-state-${id}`, JSON.stringify({
+    localStorage.setItem(`estatevisio-advanced-state-${effectiveId}`, JSON.stringify({
       currentStep,
       completedSteps,
     }));
-  }, [currentStep, completedSteps, id, isProjectCompleted]);
+  }, [currentStep, completedSteps, effectiveId, isProjectCompleted]);
 
   const handleNext = () => {
     if (!completedSteps.includes(currentStep)) {
@@ -276,8 +330,11 @@ export const Advanced = () => {
     setClipOrder([]);
     setSelectedTransition(null);
     setFinalVideo(null);
-    if (id) {
-      localStorage.removeItem(`estatevisio-advanced-state-${id}`);
+    if (effectiveId) {
+      localStorage.removeItem(`estatevisio-advanced-state-${effectiveId}`);
+      // Clear persisted photos if user starts a new project
+      void clearProjectPhotos(effectiveId);
+      localStorage.removeItem(`estatevisio-photos-${effectiveId}`);
     }
   };
 
@@ -292,9 +349,9 @@ export const Advanced = () => {
   const selectedAnalysis = selectedPhoto ? analyses.find(a => a.photoId === selectedPhoto.id) : null;
 
   return (
-    <div className="min-h-[calc(100vh-8rem)] flex flex-col">
-      <div className="container mx-auto px-4 py-12 flex-1">
-        <div className="max-w-6xl mx-auto space-y-12">
+    <div className="min-h-[calc(100vh-8rem)] flex flex-col overflow-visible">
+      <div className="container mx-auto px-4 py-12 flex-1 overflow-visible">
+        <div className="max-w-6xl mx-auto space-y-12 overflow-visible">
           {/* Stepper - Centered */}
           <Stepper steps={STEPS} currentStep={currentStep} completedSteps={completedSteps} onStepClick={handleStepClick} />
 

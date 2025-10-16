@@ -21,7 +21,7 @@ export const PhotoUploader = ({
   const { toast } = useToast();
 
   const handleFileSelect = useCallback(
-    (files: FileList | null) => {
+    async (files: FileList | null) => {
       if (!files) return;
 
       const validFiles = Array.from(files).filter(file => {
@@ -45,19 +45,36 @@ export const PhotoUploader = ({
         return;
       }
 
-      const newPhotos: Photo[] = validFiles.map((file, idx) => ({
-        id: `${Date.now()}-${idx}`,
-        url: URL.createObjectURL(file),
-        name: file.name,
-        file,
-      }));
+      const readFileAsDataURL = (file: File) =>
+        new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
 
-      onPhotosChange([...photos, ...newPhotos]);
-      
-      toast({
-        title: 'Photos added',
-        description: `${newPhotos.length} photo${newPhotos.length > 1 ? 's' : ''} added successfully.`,
-      });
+      try {
+        const dataUrls = await Promise.all(validFiles.map(f => readFileAsDataURL(f)));
+        const timestamp = Date.now();
+        const newPhotos: Photo[] = dataUrls.map((dataUrl, idx) => ({
+          id: `${timestamp}-${idx}`,
+          url: dataUrl,
+          name: validFiles[idx].name,
+        }));
+
+        onPhotosChange([...photos, ...newPhotos]);
+
+        toast({
+          title: 'Photos added',
+          description: `${newPhotos.length} photo${newPhotos.length > 1 ? 's' : ''} added successfully.`,
+        });
+      } catch (err) {
+        toast({
+          variant: 'destructive',
+          title: 'Failed to read files',
+          description: 'Please try again with different images.',
+        });
+      }
     },
     [photos, maxPhotos, onPhotosChange, toast]
   );
@@ -146,7 +163,7 @@ export const PhotoUploader = ({
               onDragStart={(e) => handleDragStart(e, index)}
               onDragOver={handleDragOver}
               onDrop={(e) => handlePhotoDrop(e, index)}
-              className="group relative aspect-video rounded-2xl overflow-hidden shadow-card hover:shadow-glow hover:scale-105 transition-all duration-500 cursor-move bg-card active:scale-95"
+              className="group relative aspect-video rounded-xl overflow-hidden shadow-card hover:shadow-glow hover:scale-105 transition-all duration-500 cursor-move bg-card active:scale-95 border-2 border-primary/20 hover:border-primary/40"
             >
               <img
                 src={photo.url}

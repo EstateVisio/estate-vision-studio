@@ -25,8 +25,16 @@ export const TopBar = () => {
   const { id } = useParams();
   const { language, setLanguage, t } = useLanguage();
   
+  // Extract ID from pathname as fallback (same pattern as Simple/Advanced components)
+  const pathId = location.pathname.match(/\/project\/([^\/]+)/)?.[1] || 
+                 location.pathname.match(/^\/([^\/]+)$/)?.[1];
+  const effectiveId = id || pathId;
+  
+  // Debug logging
+  console.log('TopBar - id:', id, 'pathId:', pathId, 'effectiveId:', effectiveId, 'location:', location.pathname);
+  
   // Check if we're in a project context
-  const isInProject = location.pathname.startsWith('/project/');
+  const isInProject = location.pathname.startsWith('/project/') || (effectiveId && !location.pathname.includes('/'));
   const isSimple = isInProject && !location.pathname.includes('/advanced');
   const isAdvanced = isInProject && location.pathname.includes('/advanced');
 
@@ -120,7 +128,7 @@ export const TopBar = () => {
               <Button
                 variant={isSimple ? 'default' : 'ghost'}
                 size="sm"
-                onClick={() => navigate(`/project/${id}`)}
+                onClick={() => navigate(`/project/${effectiveId}`)}
                 className="rounded-xl"
               >
                 {t('simple')}
@@ -128,7 +136,7 @@ export const TopBar = () => {
               <Button
                 variant={isAdvanced ? 'default' : 'ghost'}
                 size="sm"
-                onClick={() => navigate(`/project/${id}/advanced`)}
+                onClick={() => navigate(`/project/${effectiveId}/advanced`)}
                 className="rounded-xl"
               >
                 {t('advanced')}

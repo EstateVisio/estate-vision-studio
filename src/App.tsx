@@ -20,13 +20,15 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <div className="min-h-screen flex flex-col w-full m-0 p-0">
+          <div className="min-h-screen flex flex-col w-full m-0 p-0 overflow-x-hidden">
             <TopBar />
-            <div className="flex-1 flex flex-col mt-0">
+            <div className="flex-1 flex flex-col mt-0 overflow-visible">
               <Routes>
                 <Route path="/" element={<Projects />} />
                 <Route path="/project/:id" element={<Simple />} />
                 <Route path="/project/:id/advanced" element={<Advanced />} />
+                {/* Redirect bare ID to proper project route */}
+                <Route path="/:id" element={<Simple />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
