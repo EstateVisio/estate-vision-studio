@@ -31,13 +31,13 @@ export const TopBar = () => {
 
   return (
     <>
-      <header className="border-b border-border bg-muted/30 shadow-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-5 flex items-center justify-between">
+      <header className="border-b border-border/50 bg-background/95 backdrop-blur-md shadow-card sticky top-0 z-50">
+        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src={logo} alt="EstateVisio" className="h-12" />
+            <img src={logo} alt="EstateVisio" className="h-14" />
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             {/* Language Switcher */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

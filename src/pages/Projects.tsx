@@ -22,34 +22,34 @@ export const Projects = () => {
   };
 
   return (
-    <main className="flex-1 container mx-auto px-4 py-8">
+    <main className="flex-1 container mx-auto px-6 py-12">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-12">
           <div>
-            <h1 className="text-4xl font-bold mb-2">My Projects</h1>
-            <p className="text-muted-foreground">
+            <h1 className="text-5xl font-bold mb-3 tracking-wide">My Projects</h1>
+            <p className="text-muted-foreground text-lg tracking-wide">
               Create and manage your real estate video projects
             </p>
           </div>
-          <Button onClick={() => navigate('/project/new')} size="lg">
+          <Button onClick={() => navigate('/project/new')} variant="premium" size="lg" className="px-8">
             <Plus className="mr-2 h-5 w-5" />
             New Project
           </Button>
         </div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Projects Gallery */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {mockProjects.map((project) => (
             <Card
               key={project.id}
-              className="cursor-pointer hover:shadow-lg transition-shadow overflow-hidden"
+              className="group cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-intense hover:-translate-y-1 bg-background/40 backdrop-blur-sm"
               onClick={() => navigate(`/project/${project.id}`)}
             >
-              {/* Media Preview - Show photos for all projects */}
+              {/* Cinematic Media Preview */}
               {project.photoUrls && project.photoUrls.length > 0 && (
-                <div className="aspect-video bg-muted relative overflow-hidden">
-                  <div className="grid grid-cols-2 h-full">
+                <div className="aspect-video bg-muted/20 relative overflow-hidden">
+                  <div className="grid grid-cols-2 h-full transition-transform duration-500 group-hover:scale-105">
                     {project.photoUrls.slice(0, 4).map((url, idx) => (
                       <img
                         key={idx}
@@ -59,30 +59,32 @@ export const Projects = () => {
                       />
                     ))}
                   </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 ring-1 ring-primary/0 group-hover:ring-primary/40 transition-all duration-300 rounded-2xl" />
                 </div>
               )}
 
-              <CardHeader>
-                <div className="flex items-start justify-between mb-2">
-                  <CardTitle className="text-xl">{project.name}</CardTitle>
+              <CardHeader className="pb-3">
+                <div className="flex items-start justify-between mb-1">
+                  <CardTitle className="text-xl tracking-wide">{project.name}</CardTitle>
                   <div className="flex items-center">
                     {getStatusIcon(project.status)}
                   </div>
                 </div>
-                <CardDescription>{project.description}</CardDescription>
+                <CardDescription className="text-muted tracking-wide">{project.description}</CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-2 text-sm text-muted-foreground">
+              <CardContent className="pb-6">
+                <div className="space-y-2 text-sm text-muted">
                   <div className="flex items-center gap-2">
-                    <Image className="h-4 w-4" />
+                    <Image className="h-4 w-4 text-primary/60" />
                     <span>{project.photosCount} photos</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4" />
+                    <Calendar className="h-4 w-4 text-primary/60" />
                     <span>Created {format(project.createdAt, 'MMM d, yyyy')}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4" />
+                    <Clock className="h-4 w-4 text-primary/60" />
                     <span>Updated {format(project.updatedAt, 'MMM d, yyyy')}</span>
                   </div>
                 </div>
@@ -93,12 +95,12 @@ export const Projects = () => {
 
         {/* Empty State */}
         {mockProjects.length === 0 && (
-          <div className="text-center py-12">
-            <h3 className="text-xl font-semibold mb-2">No projects yet</h3>
-            <p className="text-muted-foreground mb-6">
+          <div className="text-center py-20">
+            <h3 className="text-2xl font-semibold mb-3 tracking-wide">No projects yet</h3>
+            <p className="text-muted-foreground mb-8 text-lg tracking-wide">
               Get started by creating your first real estate video project
             </p>
-            <Button onClick={() => navigate('/project/new')} size="lg">
+            <Button onClick={() => navigate('/project/new')} variant="premium" size="lg" className="px-8">
               <Plus className="mr-2 h-5 w-5" />
               Create Your First Project
             </Button>

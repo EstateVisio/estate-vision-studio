@@ -81,10 +81,18 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "kern" 1, "liga" 1;
+    background: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
+    background-attachment: fixed;
+    letter-spacing: 0.01em;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply text-card-foreground font-semibold;
+    @apply text-foreground font-semibold;
+    letter-spacing: 0.02em;
+  }
+  
+  h1 {
+    letter-spacing: 0.03em;
   }
 }
 
