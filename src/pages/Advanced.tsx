@@ -88,9 +88,9 @@ export const Advanced = () => {
     } : null
   );
 
-  // Load from localStorage per project
+  // Load from localStorage per project (but don't override completed projects)
   useEffect(() => {
-    if (!id) return;
+    if (!id || isProjectCompleted) return; // Don't load from localStorage for completed projects
     
     const saved = localStorage.getItem(`estatevisio-advanced-state-${id}`);
     if (saved) {
@@ -102,17 +102,17 @@ export const Advanced = () => {
         console.error('Failed to load state', e);
       }
     }
-  }, [id, projectState]);
+  }, [id, projectState, isProjectCompleted]);
 
-  // Save to localStorage per project
+  // Save to localStorage per project (but not for completed projects)
   useEffect(() => {
-    if (!id) return;
+    if (!id || isProjectCompleted) return; // Don't save to localStorage for completed projects
     
     localStorage.setItem(`estatevisio-advanced-state-${id}`, JSON.stringify({
       currentStep,
       completedSteps,
     }));
-  }, [currentStep, completedSteps, id]);
+  }, [currentStep, completedSteps, id, isProjectCompleted]);
 
   const handleNext = () => {
     if (!completedSteps.includes(currentStep)) {
