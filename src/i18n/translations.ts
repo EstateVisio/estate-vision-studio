@@ -171,6 +171,14 @@ export const translations = {
     builtWith: 'Built with',
     and: 'and',
     
+    // User Menu
+    account: 'Account',
+    viewProfile: 'View Profile',
+    settings: 'Settings',
+    billing: 'Billing',
+    signOut: 'Sign out',
+    confirmSignOut: 'Are you sure you want to log out?',
+    
     // 404 Page
     pageNotFound: 'Page Not Found',
     pageNotFoundDescription: 'The page you are looking for does not exist.',
@@ -345,6 +353,14 @@ export const translations = {
     // Footer
     builtWith: 'Създадено с',
     and: 'и',
+    
+    // User Menu
+    account: 'Профил',
+    viewProfile: 'Виж профила',
+    settings: 'Настройки',
+    billing: 'Плащания',
+    signOut: 'Изход',
+    confirmSignOut: 'Сигурни ли сте, че искате да излезете?',
     
     // 404 Page
     pageNotFound: 'Страницата не е намерена',

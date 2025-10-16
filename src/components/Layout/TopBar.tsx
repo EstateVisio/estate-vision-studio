@@ -17,6 +17,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { UserMenu } from './UserMenu';
 
 export const TopBar = () => {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ export const TopBar = () => {
                   <span className="hidden sm:inline uppercase">{language}</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent align="end" className="bg-white">
                 <DropdownMenuItem onClick={() => setLanguage('en')}>
                   English
                 </DropdownMenuItem>
@@ -93,6 +94,9 @@ export const TopBar = () => {
                 </DialogHeader>
               </DialogContent>
             </Dialog>
+
+            {/* User Menu */}
+            <UserMenu />
           </div>
         </div>
       </header>
