@@ -6,18 +6,32 @@ import { Button } from '@/components/ui/button';
 import { Photo, ProcessingStage, FinalVideo } from '@/types/estate';
 import { mockApi } from '@/services/mockApi';
 import { useToast } from '@/hooks/use-toast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Sparkles, RotateCcw, Download } from 'lucide-react';
+import { mockProjects } from '@/fixtures/projectData';
 
 type ProcessState = 'idle' | 'processing' | 'complete' | 'error';
 
 export const Simple = () => {
-  const [photos, setPhotos] = useState<Photo[]>([]);
-  const [state, setState] = useState<ProcessState>('idle');
-  const [stages, setStages] = useState<ProcessingStage[]>([]);
-  const [result, setResult] = useState<FinalVideo | null>(null);
-  const { toast } = useToast();
+  const { id } = useParams();
   const navigate = useNavigate();
+  const { toast } = useToast();
+  
+  // Get project to check if it's completed
+  const project = mockProjects.find(p => p.id === id);
+  const isProjectCompleted = project?.status === 'completed' && project?.videoUrl;
+
+  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [state, setState] = useState<ProcessState>(isProjectCompleted ? 'complete' : 'idle');
+  const [stages, setStages] = useState<ProcessingStage[]>([]);
+  const [result, setResult] = useState<FinalVideo | null>(
+    isProjectCompleted ? {
+      id: `project-${id}-video`,
+      url: project.videoUrl!,
+      durationSec: 30,
+      createdAt: new Date().toISOString(),
+    } : null
+  );
 
   const startProcessing = async () => {
     if (photos.length === 0) {
