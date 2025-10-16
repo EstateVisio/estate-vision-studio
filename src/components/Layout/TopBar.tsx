@@ -30,28 +30,6 @@ export const TopBar = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            {/* Flow Selector - only show in project context */}
-            {isInProject && (
-              <div className="hidden sm:flex bg-background rounded-2xl p-1 gap-1">
-                <Button
-                  variant={isSimple ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => navigate(`/project/${id}`)}
-                  className="rounded-xl"
-                >
-                  Simple
-                </Button>
-                <Button
-                  variant={isAdvanced ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => navigate(`/project/${id}/advanced`)}
-                  className="rounded-xl"
-                >
-                  Advanced
-                </Button>
-              </div>
-            )}
-
             {/* How it Works */}
             <Dialog>
               <DialogTrigger asChild>
@@ -92,34 +70,12 @@ export const TopBar = () => {
             </Dialog>
           </div>
         </div>
-
-        {/* Mobile Flow Selector - only show in project context */}
-        {isInProject && (
-          <div className="sm:hidden border-t border-border px-4 py-2 flex gap-2">
-            <Button
-              variant={isSimple ? 'default' : 'ghost'}
-              size="sm"
-              onClick={() => navigate(`/project/${id}`)}
-              className="flex-1 rounded-xl"
-            >
-              Simple
-            </Button>
-            <Button
-              variant={isAdvanced ? 'default' : 'ghost'}
-              size="sm"
-              onClick={() => navigate(`/project/${id}/advanced`)}
-              className="flex-1 rounded-xl"
-            >
-              Advanced
-            </Button>
-          </div>
-        )}
       </header>
 
-      {/* Breadcrumb / Back Navigation */}
+      {/* Breadcrumb / Back Navigation with Flow Selector */}
       {isInProject && (
         <div className="border-b border-border bg-background">
-          <div className="container mx-auto px-4 py-3">
+          <div className="container mx-auto px-4 py-3 flex items-center justify-between gap-4">
             <Button
               variant="ghost"
               size="sm"
@@ -129,6 +85,26 @@ export const TopBar = () => {
               <ArrowLeft className="h-4 w-4" />
               <span>My Projects</span>
             </Button>
+            
+            {/* Flow Selector */}
+            <div className="flex bg-muted/50 rounded-2xl p-1 gap-1">
+              <Button
+                variant={isSimple ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => navigate(`/project/${id}`)}
+                className="rounded-xl"
+              >
+                Simple
+              </Button>
+              <Button
+                variant={isAdvanced ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => navigate(`/project/${id}/advanced`)}
+                className="rounded-xl"
+              >
+                Advanced
+              </Button>
+            </div>
           </div>
         </div>
       )}
