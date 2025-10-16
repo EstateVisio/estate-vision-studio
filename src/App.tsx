@@ -20,9 +20,9 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <div className="min-h-screen flex flex-col w-full m-0 p-0 overflow-x-hidden">
+          <div className="min-h-screen flex flex-col w-full overflow-x-hidden">
             <TopBar />
-            <div className="flex-1 flex flex-col mt-0 overflow-visible">
+            <div className="flex-1 flex flex-col pt-topbar overflow-visible">
               <Routes>
                 <Route path="/" element={<Projects />} />
                 <Route path="/project/:id" element={<Simple />} />

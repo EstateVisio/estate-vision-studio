@@ -6,10 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Photo, ProcessingStage, FinalVideo } from '@/types/estate';
 import { mockApi } from '@/services/mockApi';
 import { useToast } from '@/hooks/use-toast';
+import { useLanguage } from '@/hooks/useLanguage';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import { Sparkles, RotateCcw, Download } from 'lucide-react';
-import { mockProjects } from '@/fixtures/projectData';
+import { Sparkles, RotateCcw, Download, Edit3 } from 'lucide-react';
 import { loadProjectPhotos, saveProjectPhotos, clearProjectPhotos } from '@/lib/photoStore';
+import { getProjectFromAll } from '@/services/projectStore';
 
 type ProcessState = 'idle' | 'processing' | 'complete' | 'error';
 
@@ -18,6 +19,7 @@ export const Simple = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
+  const { t } = useLanguage();
   
   // Debug logging
   console.log('Simple component - id:', id, 'location:', location.pathname);
@@ -36,7 +38,7 @@ export const Simple = () => {
   }, [effectiveId, location.pathname, navigate]);
   
   // Get project to check if it's completed
-  const project = mockProjects.find(p => p.id === effectiveId);
+  const project = getProjectFromAll(effectiveId || '');
   const isProjectCompleted = project?.status === 'completed' && project?.videoUrl;
 
   const [photos, setPhotos] = useState<Photo[]>([]);
@@ -56,7 +58,7 @@ export const Simple = () => {
   useEffect(() => {
     if (prevProjectId.current !== effectiveId) {
       prevProjectId.current = effectiveId;
-      const updatedProject = mockProjects.find(p => p.id === effectiveId);
+      const updatedProject = getProjectFromAll(effectiveId || '');
       const isCompleted = updatedProject?.status === 'completed' && updatedProject?.videoUrl;
       
       if (isCompleted) {
@@ -151,6 +153,11 @@ export const Simple = () => {
       setResult(video);
       setState('complete');
       
+      // Update project status to completed
+      if (effectiveId) {
+        mockApi.updateProjectStatus(effectiveId, video.url);
+      }
+      
       toast({
         title: 'Video ready!',
         description: 'Your montage has been created successfully.',
@@ -203,6 +210,10 @@ export const Simple = () => {
       title: 'Download started',
       description: 'Your video is being downloaded.',
     });
+  };
+
+  const navigateToAdvanced = () => {
+    navigate(`/project/${effectiveId}/advanced`);
   };
 
   return (
@@ -277,13 +288,13 @@ export const Simple = () => {
                 Download Video
               </Button>
               <Button 
-                onClick={reset} 
+                onClick={navigateToAdvanced} 
                 variant="outline" 
                 size="lg" 
                 className="gap-3 px-10 py-6 text-lg hover:border-primary/50"
               >
-                <RotateCcw className="h-5 w-5" />
-                Start Over
+                <Edit3 className="h-5 w-5" />
+                {t('editVideo')}
               </Button>
             </div>
           </div>

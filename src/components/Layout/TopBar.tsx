@@ -39,7 +39,7 @@ export const TopBar = () => {
   const isAdvanced = isInProject && location.pathname.includes('/advanced');
 
   return (
-    <div className="sticky top-0 z-50 bg-background -mt-0">
+    <div className="top-bar-container bg-background">
       <header className="border-b border-border/50 shadow-card">
         <div className="container flex items-center justify-between gap-4 py-2">
           <div className="flex items-center gap-3 min-w-0">

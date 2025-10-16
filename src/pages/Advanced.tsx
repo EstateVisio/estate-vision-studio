@@ -14,10 +14,11 @@ import { VideoPlayer } from '@/components/VideoPlayer';
 import { Photo, Analysis, Clip, TransitionPreset, FinalVideo, ProcessingStage, ObjectTag } from '@/types/estate';
 import { mockApi } from '@/services/mockApi';
 import { useToast } from '@/hooks/use-toast';
+import { useLanguage } from '@/hooks/useLanguage';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import { Sparkles, ArrowRight, ArrowLeft, RotateCcw } from 'lucide-react';
-import { mockProjects } from '@/fixtures/projectData';
+import { Sparkles, ArrowRight, ArrowLeft, RotateCcw, Edit3 } from 'lucide-react';
 import { loadProjectPhotos, saveProjectPhotos, clearProjectPhotos } from '@/lib/photoStore';
+import { getProjectFromAll } from '@/services/projectStore';
 
 const STEPS: Step[] = [
   { id: 'upload', label: 'Upload', description: 'Add photos' },
@@ -55,6 +56,7 @@ export const Advanced = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
+  const { t } = useLanguage();
   
   // Debug logging
   console.log('Advanced component - id:', id, 'location:', location.pathname);
@@ -65,7 +67,7 @@ export const Advanced = () => {
   console.log('Effective ID:', effectiveId, 'from params:', id, 'from path:', pathId);
   
   // Get project to load its state
-  const project = mockProjects.find(p => p.id === effectiveId);
+  const project = getProjectFromAll(effectiveId || '');
   const projectState = project?.advancedFlowState;
   const isProjectCompleted = project?.status === 'completed' && project?.videoUrl;
 
@@ -167,6 +169,23 @@ export const Advanced = () => {
       completedSteps,
     }));
   }, [currentStep, completedSteps, effectiveId, isProjectCompleted]);
+
+  // Update finalVideo when project becomes completed
+  useEffect(() => {
+    if (isProjectCompleted && project?.videoUrl) {
+      setFinalVideo({
+        id: `project-${effectiveId}-video`,
+        url: project.videoUrl,
+        durationSec: 30,
+        createdAt: new Date().toISOString(),
+      });
+      // Ensure we're on the montage step (step 4) when project is completed
+      setCurrentStep(4);
+      setCompletedSteps([0, 1, 2, 3, 4]);
+      // Set default transition for completed projects
+      setSelectedTransition('Cinematic Dissolve');
+    }
+  }, [isProjectCompleted, project?.videoUrl, effectiveId]);
 
   const handleNext = () => {
     if (!completedSteps.includes(currentStep)) {
@@ -336,6 +355,12 @@ export const Advanced = () => {
       void clearProjectPhotos(effectiveId);
       localStorage.removeItem(`estatevisio-photos-${effectiveId}`);
     }
+  };
+
+  const editVideo = () => {
+    // Go back to clips step to allow editing
+    setCurrentStep(2); // Clips step (0-indexed)
+    setFinalVideo(null); // Clear final video so user can regenerate
   };
 
   const filteredAnalyses = selectedObjects.length > 0
@@ -574,15 +599,6 @@ export const Advanced = () => {
                     >
                       <ArrowLeft className="h-5 w-5" />
                       Edit Transitions
-                    </Button>
-                    <Button 
-                      onClick={resetFlow} 
-                      variant="premium"
-                      size="lg"
-                      className="gap-3 px-10 py-6 text-lg shadow-intense hover:scale-105 transition-transform"
-                    >
-                      <RotateCcw className="h-5 w-5" />
-                      Start New Project
                     </Button>
                   </div>
                 </>

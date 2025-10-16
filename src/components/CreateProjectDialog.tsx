@@ -8,6 +8,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/hooks/useLanguage';
+import { addProject } from '@/services/projectStore';
+import { Project } from '@/types/project';
 
 type CreateProjectDialogProps = {
   open: boolean;
@@ -67,6 +69,30 @@ export const CreateProjectDialog = ({ open, onOpenChange }: CreateProjectDialogP
     // Simulate project creation
     setTimeout(() => {
       const newProjectId = Date.now().toString();
+      const now = new Date();
+      
+      // Create new project object
+      const newProject: Project = {
+        id: newProjectId,
+        name: name.trim(),
+        description: description.trim(),
+        createdAt: now,
+        updatedAt: now,
+        photosCount: 0,
+        status: 'draft',
+        photoUrls: [],
+        advancedFlowState: {
+          currentStep: 0,
+          completedSteps: [],
+          hasAnalyses: false,
+          hasClips: false,
+          hasTransition: false,
+          hasFinalVideo: false,
+        },
+      };
+      
+      // Add project to cache
+      addProject(newProject);
       
       toast({
         title: t('projectCreated'),
@@ -140,7 +166,7 @@ export const CreateProjectDialog = ({ open, onOpenChange }: CreateProjectDialogP
               onChange={(e) => handleNameChange(e.target.value)}
               onBlur={handleNameBlur}
               placeholder={t('projectNamePlaceholder')}
-              className="h-12 bg-white border-[#6C6D6D]/20 focus:ring-2 focus:ring-[#A98A45] focus:ring-offset-0 focus:border-[#A98A45] rounded-xl text-base transition-all shadow-sm"
+              className="h-12 bg-white border-[#6C6D6D]/20 focus:ring-2 focus:ring-[#A98A45] focus:ring-offset-0 focus:border-[#A98A45] rounded-xl text-base text-[#323434] placeholder:text-[#6C6D6D]/70 transition-all shadow-sm"
               disabled={isSubmitting}
               autoFocus
               aria-invalid={!!nameError}
@@ -163,7 +189,7 @@ export const CreateProjectDialog = ({ open, onOpenChange }: CreateProjectDialogP
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder={t('projectDescriptionPlaceholder')}
-              className="min-h-[100px] max-h-[200px] bg-white border-[#6C6D6D]/20 focus:ring-2 focus:ring-[#A98A45] focus:ring-offset-0 focus:border-[#A98A45] rounded-xl text-base transition-all resize-y shadow-sm"
+              className="min-h-[100px] max-h-[200px] bg-white border-[#6C6D6D]/20 focus:ring-2 focus:ring-[#A98A45] focus:ring-offset-0 focus:border-[#A98A45] rounded-xl text-base text-[#323434] placeholder:text-[#6C6D6D]/70 transition-all resize-y shadow-sm"
               disabled={isSubmitting}
             />
           </div>

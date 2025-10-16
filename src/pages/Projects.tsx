@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Calendar, Image, Clock, CheckCircle2, Loader2, FileEdit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { mockProjects } from '@/fixtures/projectData';
+import { getAllProjects } from '@/services/projectStore';
+import { Project } from '@/types/project';
 import { format } from 'date-fns';
 import { CreateProjectDialog } from '@/components/CreateProjectDialog';
 import { useLanguage } from '@/hooks/useLanguage';
@@ -12,6 +14,21 @@ export const Projects = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [projects, setProjects] = useState<Project[]>([]);
+
+  // Load projects from cache on component mount
+  useEffect(() => {
+    const allProjects = getAllProjects();
+    setProjects(allProjects);
+  }, []);
+
+  // Refresh projects when dialog closes (in case a new project was created)
+  useEffect(() => {
+    if (!isDialogOpen) {
+      const allProjects = getAllProjects();
+      setProjects(allProjects);
+    }
+  }, [isDialogOpen]);
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -54,7 +71,7 @@ export const Projects = () => {
 
         {/* Projects Gallery */}
         <div className="grid-auto animate-fade-in">
-          {mockProjects.map((project, idx) => (
+          {projects.map((project, idx) => (
             <Card
               key={project.id}
               className="card-shell group cursor-pointer transition-all duration-500 hover:shadow-intense hover:-translate-y-2"
@@ -135,7 +152,7 @@ export const Projects = () => {
         </div>
 
         {/* Empty State - Premium */}
-        {mockProjects.length === 0 && (
+        {projects.length === 0 && (
           <div className="text-center py-32 animate-fade-in">
             <h3 className="text-3xl font-bold mb-4 tracking-wide text-foreground">No projects yet</h3>
             <p className="text-muted-foreground mb-12 text-lg tracking-wide max-w-md mx-auto">

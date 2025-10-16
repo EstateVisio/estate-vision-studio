@@ -76,6 +76,7 @@ All colors MUST be HSL.
     --gutter: 24px;
     --radius-ui: 16px;
     --shadow-1: 0 6px 20px rgba(0, 0, 0, 0.18);
+    --topbar-height: 64px;
     --charcoal: #323434;
     --gold: #A98A45;
     --white: #F8F9FA;
@@ -100,14 +101,20 @@ All colors MUST be HSL.
   
   /* Reset html and root */
   html {
-    margin: 0;
-    padding: 0;
+    margin: 0 !important;
+    padding: 0 !important;
     overscroll-behavior: none;
   }
   
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
   #root {
-    margin: 0;
-    padding: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: relative;
   }
   
   /* Layout hardening */
@@ -133,8 +140,8 @@ All colors MUST be HSL.
     background-attachment: fixed;
     letter-spacing: 0.015em;
     font-weight: 400;
-    margin: 0;
-    padding: 0;
+    margin: 0 !important;
+    padding: 0 !important;
     overscroll-behavior: none;
   }
   
@@ -222,6 +229,17 @@ All colors MUST be HSL.
     object-fit: contain;
   }
   
+  /* Top bar positioning fix */
+  .top-bar-container {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: 50;
+  }
+  
   @media (max-width: 767px) {
     .logo {
       max-height: 40px;
@@ -253,5 +271,14 @@ All colors MUST be HSL.
   .scrollbar-hide {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
+  }
+  
+  /* Top bar spacing utilities */
+  .pt-topbar {
+    padding-top: var(--topbar-height);
+  }
+  
+  .mt-topbar {
+    margin-top: var(--topbar-height);
   }
 }

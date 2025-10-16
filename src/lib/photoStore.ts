@@ -1,6 +1,8 @@
 // Simple IndexedDB wrapper to persist photos per project.
 // Stores arrays of Photo objects (without File blobs) keyed by projectId.
 
+import { updateProject } from '@/services/projectStore';
+
 export type StoredPhoto = {
   id: string;
   url: string; // data URL or remote URL
@@ -36,6 +38,9 @@ export async function saveProjectPhotos(projectId: string, photos: StoredPhoto[]
     tx.onabort = () => reject(tx.error);
   });
   db.close();
+  
+  // Update project photos count
+  updateProject(projectId, { photosCount: photos.length });
 }
 
 export async function loadProjectPhotos(projectId: string): Promise<StoredPhoto[] | null> {

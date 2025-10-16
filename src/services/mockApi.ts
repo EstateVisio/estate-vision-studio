@@ -1,6 +1,8 @@
 import { Photo, Analysis, Clip, FinalVideo, TransitionPreset } from '@/types/estate';
 import { generateMockAnalysis } from '@/fixtures/analysisData';
 import { generateMockClip, MOCK_FINAL_VIDEO } from '@/fixtures/clipData';
+import { mockProjects } from '@/fixtures/projectData';
+import { getProject, updateProject } from '@/services/projectStore';
 
 const sleep = (ms: number) =>
   new Promise(resolve => setTimeout(resolve, ms + (Math.random() * ms * 0.2 - ms * 0.1)));
@@ -69,5 +71,40 @@ export const mockApi = {
       id: `simple-${Date.now()}`,
       createdAt: new Date().toISOString(),
     };
+  },
+
+  updateProjectStatus(projectId: string, videoUrl: string): void {
+    // First try to get from cache
+    const cachedProject = getProject(projectId);
+    if (cachedProject) {
+      updateProject(projectId, {
+        status: 'completed',
+        videoUrl: videoUrl,
+        advancedFlowState: {
+          currentStep: 4,
+          completedSteps: [0, 1, 2, 3, 4],
+          hasAnalyses: true,
+          hasClips: true,
+          hasTransition: true,
+          hasFinalVideo: true,
+        },
+      });
+    } else {
+      // Fallback to mock data for existing projects
+      const project = mockProjects.find(p => p.id === projectId);
+      if (project) {
+        project.status = 'completed';
+        project.videoUrl = videoUrl;
+        project.updatedAt = new Date();
+        project.advancedFlowState = {
+          currentStep: 4,
+          completedSteps: [0, 1, 2, 3, 4],
+          hasAnalyses: true,
+          hasClips: true,
+          hasTransition: true,
+          hasFinalVideo: true,
+        };
+      }
+    }
   },
 };
