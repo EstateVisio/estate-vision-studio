@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { PhotoUploader } from '@/components/PhotoUploader';
 import { ProgressStages } from '@/components/ProgressStages';
 import { VideoPlayer } from '@/components/VideoPlayer';
@@ -32,6 +32,30 @@ export const Simple = () => {
       createdAt: new Date().toISOString(),
     } : null
   );
+
+  // Update state when project changes
+  const prevProjectId = useRef(id);
+  useEffect(() => {
+    if (prevProjectId.current !== id) {
+      prevProjectId.current = id;
+      const updatedProject = mockProjects.find(p => p.id === id);
+      const isCompleted = updatedProject?.status === 'completed' && updatedProject?.videoUrl;
+      
+      if (isCompleted) {
+        setState('complete');
+        setResult({
+          id: `project-${id}-video`,
+          url: updatedProject.videoUrl!,
+          durationSec: 30,
+          createdAt: new Date().toISOString(),
+        });
+      } else {
+        setState('idle');
+        setResult(null);
+        setPhotos([]);
+      }
+    }
+  }, [id]);
 
   const startProcessing = async () => {
     if (photos.length === 0) {

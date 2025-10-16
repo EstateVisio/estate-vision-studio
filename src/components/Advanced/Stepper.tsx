@@ -30,28 +30,28 @@ export const Stepper = ({ steps, currentStep, completedSteps, onStepClick }: Ste
             return (
               <div key={step.id} className="flex items-center">
                 <div className="flex flex-col items-center gap-3 relative">
-                  {/* Step Circle - Larger when active/complete */}
+                  {/* Step Circle - Only larger when ACTIVE */}
                   <button
                     onClick={() => isClickable && onStepClick?.(index)}
                     disabled={!isClickable}
                     className={cn(
                       "rounded-full flex items-center justify-center border-2 transition-all duration-500 ease-out",
-                      isComplete
-                        ? "w-14 h-14 bg-primary border-primary shadow-glow scale-110"
-                        : isActive
+                      isActive
                         ? "w-16 h-16 bg-primary border-primary shadow-[0_0_40px_hsl(var(--primary)/0.5)] scale-125 animate-glow-pulse"
+                        : isComplete
+                        ? "w-14 h-14 bg-freshGreen border-freshGreen shadow-glow"
                         : "w-12 h-12 bg-card border-border",
                       isClickable && "cursor-pointer hover:scale-110 hover:shadow-glow",
                       !isClickable && "cursor-not-allowed opacity-40"
                     )}
                   >
-                    {isComplete ? (
-                      <CheckCircle2 className="h-6 w-6 text-primary-foreground" />
+                    {isComplete && !isActive ? (
+                      <CheckCircle2 className="h-6 w-6 text-card" />
                     ) : (
                       <span
                         className={cn(
                           "text-base font-bold",
-                          isActive ? "text-primary-foreground" : "text-muted"
+                          isActive ? "text-primary-foreground" : isComplete ? "text-card" : "text-muted"
                         )}
                       >
                         {index + 1}
@@ -64,8 +64,10 @@ export const Stepper = ({ steps, currentStep, completedSteps, onStepClick }: Ste
                     <p
                       className={cn(
                         "text-sm font-semibold tracking-wide",
-                        isComplete || isActive
+                        isActive
                           ? "text-primary"
+                          : isComplete
+                          ? "text-freshGreen"
                           : "text-muted"
                       )}
                     >
@@ -83,8 +85,8 @@ export const Stepper = ({ steps, currentStep, completedSteps, onStepClick }: Ste
                     <div className="absolute inset-0 bg-border rounded-full" />
                     <div
                       className={cn(
-                        "absolute inset-0 bg-primary rounded-full transition-all duration-700 ease-out",
-                        isComplete ? "w-full shadow-[0_0_12px_hsl(var(--primary)/0.7)]" : "w-0"
+                        "absolute inset-0 rounded-full transition-all duration-700 ease-out",
+                        isComplete ? "w-full bg-freshGreen shadow-[0_0_12px_hsl(var(--fresh-green)/0.7)]" : "w-0"
                       )}
                     />
                   </div>

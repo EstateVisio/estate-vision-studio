@@ -57,9 +57,14 @@ export const Advanced = () => {
   // Get project to load its state
   const project = mockProjects.find(p => p.id === id);
   const projectState = project?.advancedFlowState;
+  const isProjectCompleted = project?.status === 'completed' && project?.videoUrl;
 
-  const [currentStep, setCurrentStep] = useState(projectState?.currentStep || 0);
-  const [completedSteps, setCompletedSteps] = useState<number[]>(projectState?.completedSteps || []);
+  const [currentStep, setCurrentStep] = useState(
+    isProjectCompleted ? 4 : (projectState?.currentStep || 0)
+  );
+  const [completedSteps, setCompletedSteps] = useState<number[]>(
+    isProjectCompleted ? [0, 1, 2, 3, 4] : (projectState?.completedSteps || [])
+  );
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [analyses, setAnalyses] = useState<Analysis[]>([]);
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
@@ -69,10 +74,19 @@ export const Advanced = () => {
   const [selectedClip, setSelectedClip] = useState<Clip | null>(null);
   const [isTweakDialogOpen, setIsTweakDialogOpen] = useState(false);
   const [regeneratingClipId, setRegeneratingClipId] = useState<string | null>(null);
-  const [selectedTransition, setSelectedTransition] = useState<TransitionPreset | null>(null);
+  const [selectedTransition, setSelectedTransition] = useState<TransitionPreset | null>(
+    isProjectCompleted ? 'Cinematic Dissolve' : null
+  );
   const [isProcessing, setIsProcessing] = useState(false);
   const [processingStages, setProcessingStages] = useState<ProcessingStage[]>([]);
-  const [finalVideo, setFinalVideo] = useState<FinalVideo | null>(null);
+  const [finalVideo, setFinalVideo] = useState<FinalVideo | null>(
+    isProjectCompleted ? {
+      id: `project-${id}-video`,
+      url: project.videoUrl!,
+      durationSec: 30,
+      createdAt: new Date().toISOString(),
+    } : null
+  );
 
   // Load from localStorage per project
   useEffect(() => {
