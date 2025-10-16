@@ -1,6 +1,7 @@
-import { Film, HelpCircle } from 'lucide-react';
+import { ArrowLeft, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import logo from '@/assets/logo.png';
 import {
   Dialog,
   DialogContent,
@@ -13,37 +14,53 @@ import {
 export const TopBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const isSimple = location.pathname === '/';
-  const isAdvanced = location.pathname === '/advanced';
+  const { id } = useParams();
+  
+  // Check if we're in a project context
+  const isInProject = location.pathname.startsWith('/project/');
+  const isSimple = isInProject && !location.pathname.includes('/advanced');
+  const isAdvanced = isInProject && location.pathname.includes('/advanced');
 
   return (
     <header className="border-b border-border bg-card shadow-sm sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Film className="h-7 w-7 text-primary" />
-          <h1 className="text-xl font-bold text-card-foreground">EstateVisio Studio</h1>
+          {isInProject && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate('/')}
+              className="gap-2"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              <span className="hidden sm:inline">My Projects</span>
+            </Button>
+          )}
+          <img src={logo} alt="EstateVisio" className="h-8" />
         </div>
 
         <div className="flex items-center gap-3">
-          {/* Flow Selector */}
-          <div className="hidden sm:flex bg-background rounded-2xl p-1 gap-1">
-            <Button
-              variant={isSimple ? 'default' : 'ghost'}
-              size="sm"
-              onClick={() => navigate('/')}
-              className="rounded-xl"
-            >
-              Simple
-            </Button>
-            <Button
-              variant={isAdvanced ? 'default' : 'ghost'}
-              size="sm"
-              onClick={() => navigate('/advanced')}
-              className="rounded-xl"
-            >
-              Advanced
-            </Button>
-          </div>
+          {/* Flow Selector - only show in project context */}
+          {isInProject && (
+            <div className="hidden sm:flex bg-background rounded-2xl p-1 gap-1">
+              <Button
+                variant={isSimple ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => navigate(`/project/${id}`)}
+                className="rounded-xl"
+              >
+                Simple
+              </Button>
+              <Button
+                variant={isAdvanced ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => navigate(`/project/${id}/advanced`)}
+                className="rounded-xl"
+              >
+                Advanced
+              </Button>
+            </div>
+          )}
 
           {/* How it Works */}
           <Dialog>
@@ -86,25 +103,27 @@ export const TopBar = () => {
         </div>
       </div>
 
-      {/* Mobile Flow Selector */}
-      <div className="sm:hidden border-t border-border px-4 py-2 flex gap-2">
-        <Button
-          variant={isSimple ? 'default' : 'ghost'}
-          size="sm"
-          onClick={() => navigate('/')}
-          className="flex-1 rounded-xl"
-        >
-          Simple
-        </Button>
-        <Button
-          variant={isAdvanced ? 'default' : 'ghost'}
-          size="sm"
-          onClick={() => navigate('/advanced')}
-          className="flex-1 rounded-xl"
-        >
-          Advanced
-        </Button>
-      </div>
+      {/* Mobile Flow Selector - only show in project context */}
+      {isInProject && (
+        <div className="sm:hidden border-t border-border px-4 py-2 flex gap-2">
+          <Button
+            variant={isSimple ? 'default' : 'ghost'}
+            size="sm"
+            onClick={() => navigate(`/project/${id}`)}
+            className="flex-1 rounded-xl"
+          >
+            Simple
+          </Button>
+          <Button
+            variant={isAdvanced ? 'default' : 'ghost'}
+            size="sm"
+            onClick={() => navigate(`/project/${id}/advanced`)}
+            className="flex-1 rounded-xl"
+          >
+            Advanced
+          </Button>
+        </div>
+      )}
     </header>
   );
 };
