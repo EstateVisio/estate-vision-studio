@@ -22,7 +22,7 @@ export const TopBar = () => {
   const isAdvanced = isInProject && location.pathname.includes('/advanced');
 
   return (
-    <header className="border-b border-border bg-card shadow-sm sticky top-0 z-50">
+    <header className="border-b border-border bg-muted/30 shadow-sm sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
           {isInProject && (
