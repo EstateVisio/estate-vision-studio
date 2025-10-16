@@ -31,18 +31,18 @@ export const TopBar = () => {
 
   return (
     <>
-      <header className="border-b border-border/50 bg-background/95 backdrop-blur-md shadow-card sticky top-0 z-50">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <img src={logo} alt="EstateVisio" className="h-14" />
+      <header className="border-b border-border/50 bg-background/95 backdrop-blur-md shadow-card sticky top-0 z-50 min-h-[64px]">
+        <div className="container flex items-center justify-between gap-4 py-3">
+          <div className="flex items-center gap-3 min-w-0">
+            <img src={logo} alt="EstateVisio" className="logo" />
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-shrink-0">
             {/* Language Switcher */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="gap-2 h-14 px-6 text-base">
-                  <Languages className="h-6 w-6" />
+                <Button variant="ghost" className="gap-2 h-10 px-4 text-sm">
+                  <Languages className="h-5 w-5" />
                   <span className="hidden sm:inline uppercase">{language}</span>
                 </Button>
               </DropdownMenuTrigger>
@@ -59,8 +59,8 @@ export const TopBar = () => {
             {/* How it Works */}
             <Dialog>
               <DialogTrigger asChild>
-                <Button variant="ghost" className="gap-2 h-14 px-6 text-base">
-                  <HelpCircle className="h-6 w-6" />
+                <Button variant="ghost" className="gap-2 h-10 px-4 text-sm">
+                  <HelpCircle className="h-5 w-5" />
                   <span className="hidden sm:inline">{t('howItWorks')}</span>
                 </Button>
               </DialogTrigger>

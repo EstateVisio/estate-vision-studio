@@ -27,8 +27,8 @@ export const Projects = () => {
   };
 
   return (
-    <main className="flex-1 container mx-auto px-6 py-12">
-      <div className="max-w-7xl mx-auto">
+    <main className="flex-1 py-12">
+      <div className="container">
         {/* Header - Cinematic */}
         <div className="flex items-center justify-between mb-16 animate-fade-in">
           <div>
@@ -41,25 +41,25 @@ export const Projects = () => {
             onClick={() => setIsDialogOpen(true)} 
             variant="premium" 
             size="lg" 
-            className="px-10 py-6 text-lg shadow-intense hover:scale-105 transition-transform"
+            className="px-10 py-6 text-lg shadow-intense hover:scale-105 transition-transform min-h-[44px]"
           >
-            <Plus className="mr-2 h-6 w-6" />
+            <Plus className="mr-2 h-5 w-5" />
             {t('newProject')}
           </Button>
         </div>
 
-        {/* Projects Gallery - Modern Variable Width */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in">
+        {/* Projects Gallery */}
+        <div className="grid-auto animate-fade-in">
           {mockProjects.map((project, idx) => (
             <Card
               key={project.id}
-              className="group cursor-pointer overflow-hidden transition-all duration-500 hover:shadow-intense hover:-translate-y-2 bg-card border-0"
+              className="card-shell group cursor-pointer transition-all duration-500 hover:shadow-intense hover:-translate-y-2"
               onClick={() => navigate(`/project/${project.id}`)}
               style={{ animationDelay: `${idx * 0.1}s` }}
             >
               {/* Cinematic Large Preview */}
               {project.photoUrls && project.photoUrls.length > 0 && (
-                <div className="aspect-video bg-background relative overflow-hidden">
+                <div className="card-media bg-background relative">
                   <div className="grid grid-cols-2 h-full transition-transform duration-700 group-hover:scale-110">
                     {project.photoUrls.slice(0, 4).map((url, idx) => (
                       <img
@@ -84,7 +84,7 @@ export const Projects = () => {
                 </div>
               )}
 
-              <CardContent className="pt-6 pb-6">
+              <div className="card-body">
                 {/* Status and metadata */}
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
@@ -106,7 +106,7 @@ export const Projects = () => {
                     <span>Updated {format(project.updatedAt, 'MMM d, yyyy')}</span>
                   </div>
                 </div>
-              </CardContent>
+              </div>
             </Card>
           ))}
         </div>
@@ -122,9 +122,9 @@ export const Projects = () => {
               onClick={() => setIsDialogOpen(true)} 
               variant="premium" 
               size="lg" 
-              className="px-12 py-6 text-lg shadow-intense hover:scale-105 transition-transform"
+              className="px-12 py-6 text-lg shadow-intense hover:scale-105 transition-transform min-h-[44px]"
             >
-              <Plus className="mr-2 h-6 w-6" />
+              <Plus className="mr-2 h-5 w-5" />
               {t('createFirstProject')}
             </Button>
           </div>

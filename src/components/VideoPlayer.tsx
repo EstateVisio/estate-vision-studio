@@ -32,7 +32,7 @@ export const VideoPlayer = ({ url, className, autoPlay = false }: VideoPlayerPro
   };
 
   return (
-    <div className={cn("relative rounded-2xl overflow-hidden shadow-intense group", className)}>
+    <div className={cn("video-wrapper relative group", className)}>
       <video
         ref={videoRef}
         src={url}
@@ -74,7 +74,7 @@ export const VideoPlayer = ({ url, className, autoPlay = false }: VideoPlayerPro
         </div>
       </div>
 
-      {/* Play Button Overlay (when paused) - Large and cinematic */}
+      {/* Play Button Overlay (when paused) */}
       {!isPlaying && (
         <div className="absolute inset-0 flex items-center justify-center bg-background/30 backdrop-blur-sm">
           <Button
@@ -86,9 +86,6 @@ export const VideoPlayer = ({ url, className, autoPlay = false }: VideoPlayerPro
           </Button>
         </div>
       )}
-
-      {/* Gold vignette border */}
-      <div className="absolute inset-0 shadow-[inset_0_0_60px_rgba(0,0,0,0.3)] pointer-events-none rounded-2xl" />
     </div>
   );
 };
