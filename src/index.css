@@ -98,6 +98,18 @@ All colors MUST be HSL.
     @apply border-border;
   }
   
+  /* Reset html and root */
+  html {
+    margin: 0;
+    padding: 0;
+    overscroll-behavior: none;
+  }
+  
+  #root {
+    margin: 0;
+    padding: 0;
+  }
+  
   /* Layout hardening */
   img,
   video {
@@ -123,6 +135,7 @@ All colors MUST be HSL.
     font-weight: 400;
     margin: 0;
     padding: 0;
+    overscroll-behavior: none;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -204,14 +217,14 @@ All colors MUST be HSL.
   
   /* Logo constraints */
   .logo {
-    max-height: 36px;
+    max-height: 48px;
     width: auto;
     object-fit: contain;
   }
   
   @media (max-width: 767px) {
     .logo {
-      max-height: 32px;
+      max-height: 40px;
     }
     
     .grid-auto {
@@ -221,7 +234,7 @@ All colors MUST be HSL.
   
   @media (min-width: 768px) and (max-width: 1279px) {
     .logo {
-      max-height: 32px;
+      max-height: 44px;
     }
     
     .grid-auto {

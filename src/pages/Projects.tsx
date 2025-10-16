@@ -41,10 +41,14 @@ export const Projects = () => {
             onClick={() => setIsDialogOpen(true)} 
             variant="premium" 
             size="lg" 
-            className="px-10 py-6 text-lg shadow-intense hover:scale-105 transition-transform min-h-[44px]"
+            className="group relative overflow-hidden px-0 w-14 h-14 rounded-full shadow-intense transition-all duration-300 ease-in-out hover:w-52 hover:px-6 hover:rounded-full min-h-[44px]"
           >
-            <Plus className="mr-2 h-5 w-5" />
-            {t('newProject')}
+            <div className="flex items-center justify-center w-full">
+              <Plus className="h-6 w-6 transition-all duration-300 group-hover:mr-2 flex-shrink-0" />
+              <span className="absolute opacity-0 whitespace-nowrap transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:relative text-lg ml-0">
+                Create New
+              </span>
+            </div>
           </Button>
         </div>
 
@@ -122,10 +126,14 @@ export const Projects = () => {
               onClick={() => setIsDialogOpen(true)} 
               variant="premium" 
               size="lg" 
-              className="px-12 py-6 text-lg shadow-intense hover:scale-105 transition-transform min-h-[44px]"
+              className="group relative overflow-hidden px-0 w-14 h-14 rounded-full shadow-intense transition-all duration-300 ease-in-out hover:w-52 hover:px-6 hover:rounded-full min-h-[44px]"
             >
-              <Plus className="mr-2 h-5 w-5" />
-              {t('createFirstProject')}
+              <div className="flex items-center justify-center w-full">
+                <Plus className="h-6 w-6 transition-all duration-300 group-hover:mr-2 flex-shrink-0" />
+                <span className="absolute opacity-0 whitespace-nowrap transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:relative text-lg ml-0">
+                  Create New
+                </span>
+              </div>
             </Button>
           </div>
         )}

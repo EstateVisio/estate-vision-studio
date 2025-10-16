@@ -31,9 +31,9 @@ export const TopBar = () => {
   const isAdvanced = isInProject && location.pathname.includes('/advanced');
 
   return (
-    <>
-      <header className="border-b border-border/50 bg-background/95 backdrop-blur-md shadow-card sticky top-0 z-50 min-h-[64px]">
-        <div className="container flex items-center justify-between gap-4 py-3">
+    <div className="sticky top-0 z-50 bg-background -mt-0">
+      <header className="border-b border-border/50 shadow-card">
+        <div className="container flex items-center justify-between gap-4 py-2">
           <div className="flex items-center gap-3 min-w-0">
             <img src={logo} alt="EstateVisio" className="logo" />
           </div>
@@ -103,8 +103,8 @@ export const TopBar = () => {
 
       {/* Breadcrumb / Back Navigation with Flow Selector */}
       {isInProject && (
-        <div className="border-b border-border bg-background">
-          <div className="container mx-auto px-4 py-3 flex items-center justify-between gap-4">
+        <div className="border-b border-border">
+          <div className="container mx-auto px-4 py-2 flex items-center justify-between gap-4">
             <Button
               variant="ghost"
               size="sm"
@@ -137,6 +137,6 @@ export const TopBar = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
