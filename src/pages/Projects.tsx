@@ -71,7 +71,7 @@ export const Projects = () => {
                     {getStatusIcon(project.status)}
                   </div>
                 </div>
-                <CardDescription className="text-muted tracking-wide">{project.description}</CardDescription>
+                <CardDescription className="text-foreground/70 tracking-wide">{project.description}</CardDescription>
               </CardHeader>
               <CardContent className="pb-6">
                 <div className="space-y-2 text-sm text-muted">

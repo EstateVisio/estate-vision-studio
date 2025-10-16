@@ -41,8 +41,8 @@ export const TopBar = () => {
             {/* Language Switcher */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-2">
-                  <Languages className="h-4 w-4" />
+                <Button variant="ghost" size="default" className="gap-2">
+                  <Languages className="h-5 w-5" />
                   <span className="hidden sm:inline uppercase">{language}</span>
                 </Button>
               </DropdownMenuTrigger>
@@ -59,8 +59,8 @@ export const TopBar = () => {
             {/* How it Works */}
             <Dialog>
               <DialogTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-2">
-                  <HelpCircle className="h-4 w-4" />
+                <Button variant="ghost" size="default" className="gap-2">
+                  <HelpCircle className="h-5 w-5" />
                   <span className="hidden sm:inline">{t('howItWorks')}</span>
                 </Button>
               </DialogTrigger>
