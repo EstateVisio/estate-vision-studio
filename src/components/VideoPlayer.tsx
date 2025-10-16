@@ -32,7 +32,7 @@ export const VideoPlayer = ({ url, className, autoPlay = false }: VideoPlayerPro
   };
 
   return (
-    <div className={cn("relative rounded-2xl overflow-hidden shadow-card group", className)}>
+    <div className={cn("relative rounded-2xl overflow-hidden shadow-intense group", className)}>
       <video
         ref={videoRef}
         src={url}
@@ -43,19 +43,19 @@ export const VideoPlayer = ({ url, className, autoPlay = false }: VideoPlayerPro
         onPause={() => setIsPlaying(false)}
       />
       
-      {/* Controls Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-        <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+      {/* Controls Overlay with cinematic gradient */}
+      <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+        <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between">
           <Button
             variant="ghost"
             size="icon"
             onClick={togglePlay}
-            className="bg-background/50 backdrop-blur-sm hover:bg-background/70"
+            className="bg-background/60 backdrop-blur-md hover:bg-primary/90 hover:scale-110 transition-all shadow-glow h-12 w-12"
           >
             {isPlaying ? (
-              <Pause className="h-5 w-5 text-foreground" />
+              <Pause className="h-6 w-6 text-foreground" />
             ) : (
-              <Play className="h-5 w-5 text-foreground" />
+              <Play className="h-6 w-6 text-foreground" />
             )}
           </Button>
           
@@ -63,29 +63,32 @@ export const VideoPlayer = ({ url, className, autoPlay = false }: VideoPlayerPro
             variant="ghost"
             size="icon"
             onClick={toggleMute}
-            className="bg-background/50 backdrop-blur-sm hover:bg-background/70"
+            className="bg-background/60 backdrop-blur-md hover:bg-primary/90 hover:scale-110 transition-all shadow-glow h-12 w-12"
           >
             {isMuted ? (
-              <VolumeX className="h-5 w-5 text-foreground" />
+              <VolumeX className="h-6 w-6 text-foreground" />
             ) : (
-              <Volume2 className="h-5 w-5 text-foreground" />
+              <Volume2 className="h-6 w-6 text-foreground" />
             )}
           </Button>
         </div>
       </div>
 
-      {/* Play Button Overlay (when paused) */}
+      {/* Play Button Overlay (when paused) - Large and cinematic */}
       {!isPlaying && (
-        <div className="absolute inset-0 flex items-center justify-center bg-background/20 backdrop-blur-[2px]">
+        <div className="absolute inset-0 flex items-center justify-center bg-background/30 backdrop-blur-sm">
           <Button
             size="icon"
             onClick={togglePlay}
-            className="h-16 w-16 rounded-full shadow-glow animate-scale-in"
+            className="h-20 w-20 rounded-full shadow-intense animate-scale-in hover:scale-110 transition-transform"
           >
-            <Play className="h-8 w-8 ml-1" />
+            <Play className="h-10 w-10 ml-1" />
           </Button>
         </div>
       )}
+
+      {/* Gold vignette border */}
+      <div className="absolute inset-0 shadow-[inset_0_0_60px_rgba(0,0,0,0.3)] pointer-events-none rounded-2xl" />
     </div>
   );
 };

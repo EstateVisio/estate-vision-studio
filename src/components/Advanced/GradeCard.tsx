@@ -27,7 +27,7 @@ export const GradeCard = ({ photo, analysis, onClick }: GradeCardProps) => {
 
   return (
     <div
-      className="bg-card rounded-xl overflow-hidden shadow-card hover:shadow-glow transition-all cursor-pointer group"
+      className="bg-card rounded-2xl overflow-hidden shadow-card hover:shadow-intense hover:scale-[1.03] hover:-translate-y-1 transition-all duration-500 cursor-pointer group"
       onClick={onClick}
     >
       {/* Photo */}
@@ -35,58 +35,61 @@ export const GradeCard = ({ photo, analysis, onClick }: GradeCardProps) => {
         <img
           src={photo.url}
           alt={photo.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
         />
         
-        {/* Grade Badge */}
-        <div className="absolute top-2 right-2">
+        {/* Grade Badge - Larger, more prominent */}
+        <div className="absolute top-3 right-3">
           <Badge
             className={cn(
-              "text-lg font-bold px-3 py-1 shadow-lg",
+              "text-xl font-bold px-4 py-2 shadow-intense",
               GRADE_COLORS[grade.overall]
             )}
           >
             {grade.overall}
           </Badge>
         </div>
+
+        {/* Gold glow border on hover */}
+        <div className="absolute inset-0 ring-2 ring-primary/0 group-hover:ring-primary/40 transition-all duration-500 rounded-t-2xl" />
       </div>
 
       {/* Info */}
-      <div className="p-4 space-y-3">
+      <div className="p-5 space-y-4">
         <div className="flex items-center justify-between">
-          <p className="text-sm font-medium text-card-foreground truncate flex-1">
+          <p className="text-base font-semibold text-card-foreground truncate flex-1 tracking-wide">
             {photo.name}
           </p>
-          <Button variant="ghost" size="sm" className="h-8 gap-1 text-xs">
-            <Info className="h-3 w-3" />
+          <Button variant="ghost" size="sm" className="h-9 gap-2 text-xs hover:bg-primary/10">
+            <Info className="h-4 w-4" />
             Details
           </Button>
         </div>
 
-        {/* Mini Score Bars */}
-        <div className="space-y-1">
+        {/* Score Bars with Gold Accent */}
+        <div className="space-y-2">
           {[
             { label: 'Exposure', value: grade.exposure },
             { label: 'Sharpness', value: grade.sharpness },
             { label: 'Framing', value: grade.framing },
             { label: 'Lighting', value: grade.lighting },
           ].map(({ label, value }) => (
-            <div key={label} className="flex items-center gap-2">
-              <span className="text-xs text-muted w-16 flex-shrink-0">{label}</span>
-              <div className="flex-1 bg-background rounded-full h-1.5 overflow-hidden">
+            <div key={label} className="flex items-center gap-3">
+              <span className="text-xs font-semibold text-muted w-20 flex-shrink-0">{label}</span>
+              <div className="flex-1 bg-background rounded-full h-2 overflow-hidden shadow-inner">
                 <div
-                  className="h-full bg-primary transition-all"
+                  className="h-full bg-primary transition-all duration-700 shadow-[0_0_8px_hsl(var(--primary)/0.5)]"
                   style={{ width: `${value}%` }}
                 />
               </div>
-              <span className="text-xs text-muted w-8 text-right">{value}</span>
+              <span className="text-xs font-bold text-card-foreground w-10 text-right">{value}</span>
             </div>
           ))}
         </div>
 
-        <div className="pt-2 border-t border-border">
-          <p className="text-xs text-muted">
-            Overall score: <span className="font-semibold text-card-foreground">{avgScore}/100</span>
+        <div className="pt-3 border-t border-border">
+          <p className="text-sm text-muted font-medium">
+            Overall score: <span className="font-bold text-primary text-base">{avgScore}/100</span>
           </p>
         </div>
       </div>

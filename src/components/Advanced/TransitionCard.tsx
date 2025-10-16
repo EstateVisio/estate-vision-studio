@@ -19,44 +19,44 @@ export const TransitionCard = ({
     <div
       onClick={onSelect}
       className={cn(
-        "relative bg-card rounded-2xl p-6 cursor-pointer",
-        "transition-all duration-300 ease-out",
-        "hover:shadow-glow hover:scale-[1.03] hover:-translate-y-1",
-        "border-2",
+        "relative bg-card rounded-2xl p-8 cursor-pointer",
+        "transition-all duration-500 ease-out",
+        "hover:shadow-intense hover:scale-105 hover:-translate-y-2",
+        "border-2 shadow-card",
         isSelected
-          ? "border-primary shadow-glow animate-glow-pulse scale-[1.02]"
-          : "border-transparent hover:border-primary/30"
+          ? "border-primary shadow-intense animate-glow-pulse scale-105"
+          : "border-transparent hover:border-primary/40"
       )}
     >
       {/* Selection Indicator */}
       {isSelected && (
-        <div className="absolute top-4 right-4 w-8 h-8 bg-primary rounded-full flex items-center justify-center shadow-lg animate-bounce-soft">
-          <Check className="h-5 w-5 text-primary-foreground animate-scale-in" />
+        <div className="absolute top-5 right-5 w-10 h-10 bg-primary rounded-full flex items-center justify-center shadow-intense animate-bounce-soft">
+          <Check className="h-6 w-6 text-primary-foreground animate-scale-in" />
         </div>
       )}
 
       {/* Content */}
-      <div className="space-y-3">
-        <h3 className="text-lg font-semibold text-card-foreground pr-10">
+      <div className="space-y-4">
+        <h3 className="text-xl font-bold text-card-foreground pr-12 tracking-wide">
           {preset}
         </h3>
-        <p className="text-sm text-muted leading-relaxed">
+        <p className="text-base text-muted leading-relaxed font-medium">
           {description}
         </p>
 
-        {/* Visual Indicator */}
-        <div className="pt-3 flex gap-1">
+        {/* Visual Indicator - Cinematic bars */}
+        <div className="pt-4 flex gap-1.5">
           {[...Array(5)].map((_, i) => (
             <div
               key={i}
               className={cn(
-                "h-1.5 rounded-full flex-1 transition-all duration-500",
-                isSelected ? "bg-primary shadow-[0_0_8px_hsl(var(--primary)/0.5)]" : "bg-muted"
+                "h-2 rounded-full flex-1 transition-all duration-700",
+                isSelected ? "bg-primary shadow-[0_0_12px_hsl(var(--primary)/0.6)]" : "bg-muted/50"
               )}
               style={{
-                transitionDelay: isSelected ? `${i * 0.05}s` : '0s',
+                transitionDelay: isSelected ? `${i * 0.08}s` : '0s',
                 animation: isSelected ? 'pulse 2s ease-in-out infinite' : 'none',
-                animationDelay: isSelected ? `${i * 0.15}s` : '0s',
+                animationDelay: isSelected ? `${i * 0.2}s` : '0s',
               }}
             />
           ))}

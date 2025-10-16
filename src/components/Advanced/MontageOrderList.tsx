@@ -43,18 +43,18 @@ export const MontageOrderList = ({
   };
 
   return (
-    <div className="bg-card rounded-2xl p-6 shadow-card">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-card-foreground">
+    <div className="bg-card rounded-2xl p-6 shadow-card hover:shadow-glow transition-all duration-500">
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-xl font-bold text-card-foreground tracking-wide">
           Montage Order
         </h3>
-        <Button variant="ghost" size="sm" onClick={onReset} className="gap-2">
-          <RotateCcw className="h-3 w-3" />
+        <Button variant="ghost" size="sm" onClick={onReset} className="gap-2 hover:bg-primary/10">
+          <RotateCcw className="h-4 w-4" />
           Reset
         </Button>
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-3">
         {orderedClips.map((clip, index) => (
           <div
             key={clip.id}
@@ -63,24 +63,24 @@ export const MontageOrderList = ({
             onDragOver={handleDragOver}
             onDrop={(e) => handleDrop(e, index)}
             className={cn(
-              "flex items-center gap-3 p-3 rounded-xl",
-              "bg-background hover:bg-background/80 hover:scale-[1.02] hover:shadow-md",
-              "transition-all duration-200 cursor-move active:scale-95"
+              "flex items-center gap-4 p-4 rounded-xl",
+              "bg-background/60 hover:bg-background hover:scale-[1.02] hover:shadow-md",
+              "transition-all duration-300 cursor-move active:scale-95 border border-border/50"
             )}
           >
-            <GripVertical className="h-4 w-4 text-muted flex-shrink-0" />
+            <GripVertical className="h-5 w-5 text-muted flex-shrink-0" />
             
-            <div className="w-8 h-8 rounded bg-primary/20 flex items-center justify-center flex-shrink-0">
-              <span className="text-sm font-semibold text-primary">
+            <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0 shadow-inner">
+              <span className="text-base font-bold text-primary">
                 {index + 1}
               </span>
             </div>
 
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-foreground truncate">
+              <p className="text-sm font-semibold text-foreground truncate tracking-wide">
                 {clip.caption}
               </p>
-              <p className="text-xs text-foreground/70">
+              <p className="text-xs text-foreground/70 font-medium">
                 {clip.durationSec}s
                 {clip.version > 1 && ` • v${clip.version}`}
               </p>
@@ -89,9 +89,9 @@ export const MontageOrderList = ({
         ))}
       </div>
 
-      <div className="mt-4 pt-4 border-t border-border">
-        <p className="text-xs text-foreground/70">
-          Total duration: <span className="font-semibold text-foreground">
+      <div className="mt-6 pt-6 border-t border-border">
+        <p className="text-sm text-foreground/70 font-medium">
+          Total duration: <span className="font-bold text-primary text-base">
             {orderedClips.reduce((sum, c) => sum + c.durationSec, 0)}s
           </span>
         </p>

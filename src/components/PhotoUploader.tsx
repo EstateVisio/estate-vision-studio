@@ -106,15 +106,15 @@ export const PhotoUploader = ({
   };
 
   return (
-    <div className="space-y-4">
-      {/* Drop Zone */}
+    <div className="space-y-6">
+      {/* Drop Zone - Clean Centered Card */}
         <div
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
           className={cn(
-            "border-2 border-dashed border-primary/30 rounded-2xl p-8 text-center",
-            "hover:border-primary/50 hover:bg-primary/5 hover:scale-[1.01]",
-            "transition-all duration-300 cursor-pointer bg-card"
+            "border-2 border-dashed border-primary/30 rounded-2xl p-16 text-center",
+            "hover:border-primary/60 hover:bg-primary/5 hover:scale-[1.02]",
+            "transition-all duration-500 cursor-pointer bg-card shadow-card max-w-3xl mx-auto"
           )}
         >
         <input
@@ -125,12 +125,12 @@ export const PhotoUploader = ({
           onChange={(e) => handleFileSelect(e.target.files)}
           className="hidden"
         />
-        <label htmlFor="photo-upload" className="cursor-pointer">
-          <Upload className="h-12 w-12 text-primary mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-card-foreground mb-2">
+        <label htmlFor="photo-upload" className="cursor-pointer block">
+          <Upload className="h-16 w-16 text-primary mx-auto mb-6 animate-float" />
+          <h3 className="text-2xl font-bold text-card-foreground mb-3 tracking-wide">
             Drop photos here or click to browse
           </h3>
-          <p className="text-sm text-muted">
+          <p className="text-base text-muted font-medium tracking-wide">
             JPEG or PNG • Max {maxPhotos} photos • {photos.length}/{maxPhotos} uploaded
           </p>
         </label>
@@ -146,7 +146,7 @@ export const PhotoUploader = ({
               onDragStart={(e) => handleDragStart(e, index)}
               onDragOver={handleDragOver}
               onDrop={(e) => handlePhotoDrop(e, index)}
-              className="group relative aspect-video rounded-xl overflow-hidden shadow-card hover:shadow-glow hover:scale-105 transition-all duration-300 cursor-move bg-card active:scale-95"
+              className="group relative aspect-video rounded-2xl overflow-hidden shadow-card hover:shadow-glow hover:scale-105 transition-all duration-500 cursor-move bg-card active:scale-95"
             >
               <img
                 src={photo.url}
@@ -155,23 +155,23 @@ export const PhotoUploader = ({
               />
               
               {/* Drag Handle */}
-              <div className="absolute top-2 left-2 bg-background/80 backdrop-blur-sm rounded-lg p-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                <GripVertical className="h-4 w-4 text-foreground" />
+              <div className="absolute top-2 left-2 bg-background/80 backdrop-blur-sm rounded-lg p-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                <GripVertical className="h-5 w-5 text-foreground" />
               </div>
               
               {/* Remove Button */}
               <Button
                 variant="destructive"
                 size="icon"
-                className="absolute top-2 right-2 h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                className="absolute top-2 right-2 h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
                 onClick={() => removePhoto(photo.id)}
               >
                 <X className="h-4 w-4" />
               </Button>
               
               {/* Photo Name */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/90 to-transparent p-2">
-                <p className="text-xs text-foreground truncate">{photo.name}</p>
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/95 via-background/60 to-transparent p-3">
+                <p className="text-xs text-foreground truncate font-medium">{photo.name}</p>
               </div>
             </div>
           ))}

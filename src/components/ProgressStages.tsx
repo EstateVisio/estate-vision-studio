@@ -11,8 +11,8 @@ export const ProgressStages = ({ stages }: ProgressStagesProps) => {
   const allComplete = stages.every(s => s.isComplete);
 
   return (
-    <div className="bg-card rounded-2xl p-6 shadow-card max-w-md mx-auto animate-fade-in">
-      <div className="space-y-4">
+    <div className="bg-card rounded-2xl p-8 shadow-intense max-w-xl mx-auto animate-fade-in">
+      <div className="space-y-6">
         {stages.map((stage, index) => {
           const isActive = index === currentStageIndex;
           const isComplete = stage.isComplete;
@@ -21,27 +21,27 @@ export const ProgressStages = ({ stages }: ProgressStagesProps) => {
             <div
               key={stage.label}
               className={cn(
-                "flex items-center gap-4 transition-all",
+                "flex items-center gap-5 transition-all duration-500",
                 isActive && "animate-pulse-glow"
               )}
             >
               <div className="flex-shrink-0">
                 {isComplete ? (
-                  <CheckCircle2 className="h-6 w-6 text-freshGreen animate-bounce-soft" />
+                  <CheckCircle2 className="h-8 w-8 text-freshGreen animate-bounce-soft" />
                 ) : isActive ? (
                   <div className="relative">
-                    <Loader2 className="h-6 w-6 text-primary animate-spin" />
-                    <div className="absolute inset-0 rounded-full bg-primary/20 animate-ping" />
+                    <Loader2 className="h-8 w-8 text-primary animate-spin" />
+                    <div className="absolute inset-0 rounded-full bg-primary/30 animate-ping" />
                   </div>
                 ) : (
-                  <div className="h-6 w-6 rounded-full border-2 border-muted transition-all duration-300" />
+                  <div className="h-8 w-8 rounded-full border-2 border-muted transition-all duration-500" />
                 )}
               </div>
               
               <div className="flex-1">
                 <p
                   className={cn(
-                    "text-sm font-medium transition-colors",
+                    "text-base font-semibold transition-colors tracking-wide",
                     isComplete ? "text-freshGreen" : isActive ? "text-primary" : "text-muted"
                   )}
                 >
@@ -49,13 +49,13 @@ export const ProgressStages = ({ stages }: ProgressStagesProps) => {
                 </p>
                 
                 {isActive && (
-                  <div className="mt-2 bg-background rounded-full h-2 overflow-hidden relative">
+                  <div className="mt-3 bg-background rounded-full h-2.5 overflow-hidden relative shadow-inner">
                     <div
-                      className="h-full bg-primary transition-all duration-500 rounded-full relative overflow-hidden"
+                      className="h-full bg-primary transition-all duration-700 rounded-full relative overflow-hidden shadow-[0_0_12px_hsl(var(--primary)/0.6)]"
                       style={{ width: `${stage.progress}%` }}
                     >
                       <div 
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer"
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer"
                         style={{ backgroundSize: '200% 100%' }}
                       />
                     </div>
@@ -68,8 +68,8 @@ export const ProgressStages = ({ stages }: ProgressStagesProps) => {
       </div>
       
       {allComplete && (
-        <div className="mt-6 text-center animate-bounce-soft">
-          <p className="text-sm font-medium text-freshGreen">Processing complete! 🎉</p>
+        <div className="mt-8 text-center animate-bounce-soft">
+          <p className="text-lg font-bold text-primary">Processing complete! 🎬</p>
         </div>
       )}
     </div>

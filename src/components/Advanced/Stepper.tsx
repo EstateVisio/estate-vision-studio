@@ -17,89 +17,90 @@ type StepperProps = {
 export const Stepper = ({ steps, currentStep, completedSteps, onStepClick }: StepperProps) => {
   return (
     <div className="w-full">
-      <div className="flex items-center justify-between mb-8">
-        {steps.map((step, index) => {
-          const isActive = currentStep === index;
-          const isComplete = completedSteps.includes(index);
-          const isPreviousComplete = index === 0 || completedSteps.includes(index - 1);
-          const isClickable = isComplete || isActive || isPreviousComplete;
-          const showLine = index < steps.length - 1;
+      {/* Centered Step Progress Bar */}
+      <div className="flex items-center justify-center mb-12">
+        <div className="flex items-center gap-3 max-w-4xl w-full justify-center">
+          {steps.map((step, index) => {
+            const isActive = currentStep === index;
+            const isComplete = completedSteps.includes(index);
+            const isPreviousComplete = index === 0 || completedSteps.includes(index - 1);
+            const isClickable = isComplete || isActive || isPreviousComplete;
+            const showLine = index < steps.length - 1;
 
-          return (
-            <div key={step.id} className="flex items-center flex-1">
-              <div className="flex flex-col items-center gap-3 relative">
-                {/* Step Circle */}
-                <button
-                  onClick={() => isClickable && onStepClick?.(index)}
-                  disabled={!isClickable}
-                  className={cn(
-                    "w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300",
-                    isComplete
-                      ? "bg-freshGreen border-freshGreen"
-                      : isActive
-                      ? "bg-primary border-primary animate-pulse-glow shadow-[0_0_20px_hsl(var(--primary)/0.5)] scale-150"
-                      : "bg-card border-muted",
-                    isClickable && "cursor-pointer hover:scale-110 hover:shadow-glow",
-                    !isClickable && "cursor-not-allowed opacity-50"
-                  )}
-                >
-                  {isComplete ? (
-                    <CheckCircle2 className="h-5 w-5 text-card" />
-                  ) : (
-                    <span
-                      className={cn(
-                        "text-sm font-semibold",
-                        isActive ? "text-card" : "text-muted"
-                      )}
-                    >
-                      {index + 1}
-                    </span>
-                  )}
-                </button>
-
-                {/* Step Label */}
-                <div className="text-center hidden sm:block">
-                  <p
+            return (
+              <div key={step.id} className="flex items-center">
+                <div className="flex flex-col items-center gap-3 relative">
+                  {/* Step Circle - Larger when active/complete */}
+                  <button
+                    onClick={() => isClickable && onStepClick?.(index)}
+                    disabled={!isClickable}
                     className={cn(
-                      "text-sm font-semibold",
+                      "rounded-full flex items-center justify-center border-2 transition-all duration-500 ease-out",
                       isComplete
-                        ? "text-freshGreen"
+                        ? "w-14 h-14 bg-primary border-primary shadow-glow scale-110"
                         : isActive
-                        ? "text-primary"
-                        : "text-muted"
+                        ? "w-16 h-16 bg-primary border-primary shadow-[0_0_40px_hsl(var(--primary)/0.5)] scale-125 animate-glow-pulse"
+                        : "w-12 h-12 bg-card border-border",
+                      isClickable && "cursor-pointer hover:scale-110 hover:shadow-glow",
+                      !isClickable && "cursor-not-allowed opacity-40"
                     )}
                   >
-                    {step.label}
-                  </p>
-                  <p className="text-xs text-muted mt-1 max-w-[100px]">
-                    {step.description}
-                  </p>
-                </div>
-              </div>
-
-              {/* Connecting Line */}
-              {showLine && (
-                <div className="flex-1 h-0.5 mx-2 relative">
-                  <div className="absolute inset-0 bg-muted" />
-                  <div
-                    className={cn(
-                      "absolute inset-0 bg-primary transition-all duration-700 ease-out",
-                      isComplete ? "w-full shadow-[0_0_8px_hsl(var(--primary)/0.6)]" : "w-0"
+                    {isComplete ? (
+                      <CheckCircle2 className="h-6 w-6 text-primary-foreground" />
+                    ) : (
+                      <span
+                        className={cn(
+                          "text-base font-bold",
+                          isActive ? "text-primary-foreground" : "text-muted"
+                        )}
+                      >
+                        {index + 1}
+                      </span>
                     )}
-                  />
+                  </button>
+
+                  {/* Step Label */}
+                  <div className="text-center hidden md:block">
+                    <p
+                      className={cn(
+                        "text-sm font-semibold tracking-wide",
+                        isComplete || isActive
+                          ? "text-primary"
+                          : "text-muted"
+                      )}
+                    >
+                      {step.label}
+                    </p>
+                    <p className="text-xs text-muted/70 mt-1 max-w-[100px]">
+                      {step.description}
+                    </p>
+                  </div>
                 </div>
-              )}
-            </div>
-          );
-        })}
+
+                {/* Connecting Line with glow */}
+                {showLine && (
+                  <div className="w-16 h-1 mx-3 relative">
+                    <div className="absolute inset-0 bg-border rounded-full" />
+                    <div
+                      className={cn(
+                        "absolute inset-0 bg-primary rounded-full transition-all duration-700 ease-out",
+                        isComplete ? "w-full shadow-[0_0_12px_hsl(var(--primary)/0.7)]" : "w-0"
+                      )}
+                    />
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       {/* Mobile Current Step */}
-      <div className="sm:hidden text-center mb-6">
-        <p className="text-sm font-medium text-primary">
+      <div className="md:hidden text-center mb-6 animate-fade-in">
+        <p className="text-base font-semibold text-primary tracking-wide">
           {steps[currentStep].label}
         </p>
-        <p className="text-xs text-muted mt-1">
+        <p className="text-sm text-muted/70 mt-1">
           {steps[currentStep].description}
         </p>
       </div>

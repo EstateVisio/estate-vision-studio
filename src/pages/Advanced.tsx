@@ -279,25 +279,31 @@ export const Advanced = () => {
 
   return (
     <div className="min-h-[calc(100vh-8rem)] flex flex-col">
-      <div className="container mx-auto px-4 py-8 flex-1">
-        <div className="max-w-6xl mx-auto space-y-8">
-          {/* Stepper */}
+      <div className="container mx-auto px-4 py-12 flex-1">
+        <div className="max-w-6xl mx-auto space-y-12">
+          {/* Stepper - Centered */}
           <Stepper steps={STEPS} currentStep={currentStep} completedSteps={completedSteps} onStepClick={handleStepClick} />
 
           {/* Step A: Upload */}
           {currentStep === 0 && (
-            <div className="animate-fade-in space-y-6">
+            <div className="animate-fade-in space-y-8">
               <div className="text-center">
-                <h2 className="text-2xl font-bold text-card-foreground mb-2">Upload Photos</h2>
-                <p className="text-muted">Add up to 10 real-estate photos to begin</p>
+                <h2 className="text-3xl font-bold text-foreground mb-4 tracking-wide">Upload Photos</h2>
+                <p className="text-muted text-lg font-medium tracking-wide">Add up to 10 real-estate photos to begin</p>
               </div>
 
               <PhotoUploader photos={photos} onPhotosChange={setPhotos} />
 
               <div className="flex justify-end">
-                <Button onClick={handleAnalyze} disabled={photos.length === 0 || isProcessing} className="gap-2">
+                <Button 
+                  onClick={handleAnalyze} 
+                  disabled={photos.length === 0 || isProcessing} 
+                  variant="premium"
+                  size="lg"
+                  className="gap-3 px-10 py-6 text-lg shadow-intense hover:scale-105 transition-transform"
+                >
                   Analyze Photos
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-5 w-5" />
                 </Button>
               </div>
             </div>
@@ -305,10 +311,10 @@ export const Advanced = () => {
 
           {/* Step B: Analyze */}
           {currentStep === 1 && (
-            <div className="animate-fade-in space-y-6">
+            <div className="animate-fade-in space-y-8">
               <div className="text-center">
-                <h2 className="text-2xl font-bold text-card-foreground mb-2">Quality Analysis</h2>
-                <p className="text-muted">Review grades and filter by detected objects</p>
+                <h2 className="text-3xl font-bold text-foreground mb-4 tracking-wide">Quality Analysis</h2>
+                <p className="text-muted text-lg font-medium tracking-wide">Review grades and filter by detected objects</p>
               </div>
 
               {allObjects.length > 0 && (
@@ -339,13 +345,19 @@ export const Advanced = () => {
               </div>
 
               <div className="flex justify-between">
-                <Button variant="outline" onClick={handleBack} className="gap-2">
-                  <ArrowLeft className="h-4 w-4" />
+                <Button variant="outline" size="lg" onClick={handleBack} className="gap-3 px-8 py-6 text-lg hover:border-primary/50">
+                  <ArrowLeft className="h-5 w-5" />
                   Back
                 </Button>
-                <Button onClick={handleGenerateClips} disabled={isProcessing} className="gap-2">
+                <Button 
+                  onClick={handleGenerateClips} 
+                  disabled={isProcessing} 
+                  variant="premium"
+                  size="lg"
+                  className="gap-3 px-10 py-6 text-lg shadow-intense hover:scale-105 transition-transform"
+                >
                   Generate Clips
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-5 w-5" />
                 </Button>
               </div>
 
@@ -360,10 +372,10 @@ export const Advanced = () => {
 
           {/* Step C: Clips */}
           {currentStep === 2 && (
-            <div className="animate-fade-in space-y-6">
+            <div className="animate-fade-in space-y-8">
               <div className="text-center">
-                <h2 className="text-2xl font-bold text-card-foreground mb-2">Generated Clips</h2>
-                <p className="text-muted">Review, regenerate, and arrange your clips</p>
+                <h2 className="text-3xl font-bold text-foreground mb-4 tracking-wide">Generated Clips</h2>
+                <p className="text-muted text-lg font-medium tracking-wide">Review, regenerate, and arrange your clips</p>
               </div>
 
               <div className="grid lg:grid-cols-3 gap-6">
@@ -395,13 +407,18 @@ export const Advanced = () => {
               </div>
 
               <div className="flex justify-between">
-                <Button variant="outline" onClick={handleBack} className="gap-2">
-                  <ArrowLeft className="h-4 w-4" />
+                <Button variant="outline" size="lg" onClick={handleBack} className="gap-3 px-8 py-6 text-lg hover:border-primary/50">
+                  <ArrowLeft className="h-5 w-5" />
                   Back
                 </Button>
-                <Button onClick={handleNext} className="gap-2">
+                <Button 
+                  onClick={handleNext} 
+                  variant="premium"
+                  size="lg"
+                  className="gap-3 px-10 py-6 text-lg shadow-intense hover:scale-105 transition-transform"
+                >
                   Choose Transitions
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-5 w-5" />
                 </Button>
               </div>
             </div>
@@ -409,13 +426,13 @@ export const Advanced = () => {
 
           {/* Step D: Transitions */}
           {currentStep === 3 && (
-            <div className="animate-fade-in space-y-6">
+            <div className="animate-fade-in space-y-8">
               <div className="text-center">
-                <h2 className="text-2xl font-bold text-card-foreground mb-2">Transition Style</h2>
-                <p className="text-muted">Select how clips flow into each other</p>
+                <h2 className="text-3xl font-bold text-foreground mb-4 tracking-wide">Transition Style</h2>
+                <p className="text-muted text-lg font-medium tracking-wide">Select how clips flow into each other</p>
               </div>
 
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {TRANSITION_PRESETS.map(({ preset, description }) => (
                   <TransitionCard
                     key={preset}
@@ -428,16 +445,18 @@ export const Advanced = () => {
               </div>
 
               <div className="flex justify-between">
-                <Button variant="outline" onClick={handleBack} className="gap-2">
-                  <ArrowLeft className="h-4 w-4" />
+                <Button variant="outline" size="lg" onClick={handleBack} className="gap-3 px-8 py-6 text-lg hover:border-primary/50">
+                  <ArrowLeft className="h-5 w-5" />
                   Back
                 </Button>
                 <Button
                   onClick={handleCreateMontage}
                   disabled={!selectedTransition || isProcessing}
-                  className="gap-2"
+                  variant="premium"
+                  size="lg"
+                  className="gap-3 px-10 py-6 text-lg shadow-intense hover:scale-105 transition-transform"
                 >
-                  <Sparkles className="h-4 w-4" />
+                  <Sparkles className="h-5 w-5" />
                   Create Final Montage
                 </Button>
               </div>
@@ -446,14 +465,14 @@ export const Advanced = () => {
 
           {/* Step E: Montage */}
           {currentStep === 4 && (
-            <div className="animate-fade-in space-y-6">
+            <div className="animate-fade-in space-y-10">
               {isProcessing ? (
-                <div className="max-w-2xl mx-auto py-16">
-                  <div className="text-center mb-8">
-                    <h2 className="text-2xl font-bold text-card-foreground mb-2">
+                <div className="max-w-2xl mx-auto py-20">
+                  <div className="text-center mb-12">
+                    <h2 className="text-3xl font-bold text-foreground mb-4 tracking-wide">
                       Creating your montage
                     </h2>
-                    <p className="text-muted">
+                    <p className="text-muted text-lg font-medium tracking-wide">
                       Applying {selectedTransition} transitions…
                     </p>
                   </div>
@@ -462,23 +481,36 @@ export const Advanced = () => {
               ) : finalVideo ? (
                 <>
                   <div className="text-center">
-                    <h2 className="text-3xl font-bold text-card-foreground mb-2">
+                    <h2 className="text-4xl font-bold text-foreground mb-4 tracking-wide">
                       Your montage is ready! 🎬
                     </h2>
-                    <p className="text-muted">
+                    <p className="text-muted text-lg font-medium tracking-wide">
                       Professional video created with {selectedTransition}
                     </p>
                   </div>
 
-                  <VideoPlayer url={finalVideo.url} className="aspect-video max-w-4xl mx-auto" autoPlay />
+                  {/* Large centered video with cinematic frame */}
+                  <div className="relative max-w-5xl mx-auto">
+                    <VideoPlayer url={finalVideo.url} className="aspect-video shadow-intense" autoPlay />
+                  </div>
 
-                  <div className="flex flex-wrap justify-center gap-4 pt-6">
-                    <Button variant="outline" onClick={() => setCurrentStep(3)} className="gap-2">
-                      <ArrowLeft className="h-4 w-4" />
+                  <div className="flex flex-wrap justify-center gap-6 pt-8">
+                    <Button 
+                      variant="outline" 
+                      size="lg" 
+                      onClick={() => setCurrentStep(3)} 
+                      className="gap-3 px-8 py-6 text-lg hover:border-primary/50"
+                    >
+                      <ArrowLeft className="h-5 w-5" />
                       Edit Transitions
                     </Button>
-                    <Button onClick={resetFlow} className="gap-2">
-                      <RotateCcw className="h-4 w-4" />
+                    <Button 
+                      onClick={resetFlow} 
+                      variant="premium"
+                      size="lg"
+                      className="gap-3 px-10 py-6 text-lg shadow-intense hover:scale-105 transition-transform"
+                    >
+                      <RotateCcw className="h-5 w-5" />
                       Start New Project
                     </Button>
                   </div>

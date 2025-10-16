@@ -120,28 +120,29 @@ export const Simple = () => {
 
   return (
     <div className="min-h-[calc(100vh-8rem)] flex flex-col">
-      <div className="container mx-auto px-4 py-8 flex-1">
+      <div className="container mx-auto px-4 py-12 flex-1">
         {state === 'idle' && (
-          <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-card-foreground mb-2">
+          <div className="max-w-5xl mx-auto space-y-8 animate-fade-in">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-foreground mb-4 tracking-wide">
                 Simple Flow
               </h2>
-              <p className="text-muted">
+              <p className="text-muted text-lg font-medium tracking-wide max-w-2xl mx-auto">
                 Upload your photos and let us create a beautiful video montage automatically
               </p>
             </div>
 
             <PhotoUploader photos={photos} onPhotosChange={setPhotos} />
 
-            <div className="flex justify-center pt-4">
+            <div className="flex justify-center pt-8">
               <Button
                 onClick={startProcessing}
                 disabled={photos.length === 0}
+                variant="premium"
                 size="lg"
-                className="gap-2 shadow-glow"
+                className="gap-3 px-12 py-6 text-lg shadow-intense hover:scale-105 transition-transform"
               >
-                <Sparkles className="h-5 w-5" />
+                <Sparkles className="h-6 w-6" />
                 Create Video
               </Button>
             </div>
@@ -149,12 +150,12 @@ export const Simple = () => {
         )}
 
         {state === 'processing' && (
-          <div className="max-w-2xl mx-auto py-16 animate-fade-in">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold text-card-foreground mb-2">
+          <div className="max-w-2xl mx-auto py-20 animate-fade-in">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-foreground mb-4 tracking-wide">
                 Creating your montage
               </h2>
-              <p className="text-muted">
+              <p className="text-muted text-lg font-medium tracking-wide">
                 We're taking a closer look at lighting and framing…
               </p>
             </div>
@@ -163,29 +164,47 @@ export const Simple = () => {
         )}
 
         {state === 'complete' && result && (
-          <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
-            <div className="text-center mb-6">
-              <h2 className="text-3xl font-bold text-card-foreground mb-2">
+          <div className="max-w-5xl mx-auto space-y-10 animate-fade-in">
+            <div className="text-center mb-8">
+              <h2 className="text-4xl font-bold text-foreground mb-4 tracking-wide">
                 Your montage is ready! 🎬
               </h2>
-              <p className="text-muted">
-                Preview your video below
+              <p className="text-muted text-lg font-medium tracking-wide">
+                Preview your cinematic video below
               </p>
             </div>
 
-            <VideoPlayer url={result.url} className="aspect-video max-w-3xl mx-auto" autoPlay />
+            {/* Large centered video with gold vignette */}
+            <div className="relative max-w-4xl mx-auto">
+              <VideoPlayer url={result.url} className="aspect-video shadow-intense" autoPlay />
+            </div>
 
-            <div className="flex flex-wrap justify-center gap-4 pt-6">
-              <Button onClick={downloadVideo} size="lg" className="gap-2 shadow-glow">
-                <Download className="h-4 w-4" />
+            <div className="flex flex-wrap justify-center gap-6 pt-8">
+              <Button 
+                onClick={downloadVideo} 
+                variant="premium" 
+                size="lg" 
+                className="gap-3 px-10 py-6 text-lg shadow-intense hover:scale-105 transition-transform"
+              >
+                <Download className="h-5 w-5" />
                 Download Video
               </Button>
-              <Button onClick={reset} variant="outline" className="gap-2">
-                <RotateCcw className="h-4 w-4" />
+              <Button 
+                onClick={reset} 
+                variant="outline" 
+                size="lg" 
+                className="gap-3 px-10 py-6 text-lg hover:border-primary/50"
+              >
+                <RotateCcw className="h-5 w-5" />
                 Start Over
               </Button>
-              <Button onClick={() => navigate('/advanced')} variant="outline" className="gap-2">
-                <Sparkles className="h-4 w-4" />
+              <Button 
+                onClick={() => navigate('/advanced')} 
+                variant="outline" 
+                size="lg" 
+                className="gap-3 px-10 py-6 text-lg hover:border-primary/50"
+              >
+                <Sparkles className="h-5 w-5" />
                 Try Advanced
               </Button>
             </div>
@@ -193,16 +212,21 @@ export const Simple = () => {
         )}
 
         {state === 'error' && (
-          <div className="max-w-2xl mx-auto py-16 text-center animate-fade-in">
-            <div className="bg-terracotta/20 rounded-2xl p-8">
-              <h2 className="text-2xl font-bold text-destructive mb-2">
+          <div className="max-w-2xl mx-auto py-20 text-center animate-fade-in">
+            <div className="bg-destructive/20 rounded-2xl p-12 shadow-card">
+              <h2 className="text-3xl font-bold text-destructive mb-4 tracking-wide">
                 Something went wrong
               </h2>
-              <p className="text-muted mb-6">
+              <p className="text-muted text-lg font-medium mb-8">
                 Don't worry, you can try again
               </p>
-              <Button onClick={() => setState('idle')} className="gap-2">
-                <RotateCcw className="h-4 w-4" />
+              <Button 
+                onClick={() => setState('idle')} 
+                variant="premium" 
+                size="lg" 
+                className="gap-3 px-10 py-6 text-lg"
+              >
+                <RotateCcw className="h-5 w-5" />
                 Try Again
               </Button>
             </div>
