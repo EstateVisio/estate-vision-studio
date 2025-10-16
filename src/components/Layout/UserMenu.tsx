@@ -24,6 +24,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { UserSettingsDialog } from './UserSettingsDialog';
 
 // Mock user data - replace with actual user context/auth
 const mockUser = {
@@ -35,6 +36,7 @@ const mockUser = {
 export const UserMenu = () => {
   const { t } = useLanguage();
   const [showSignOutDialog, setShowSignOutDialog] = useState(false);
+  const [showSettingsDialog, setShowSettingsDialog] = useState(false);
   const [open, setOpen] = useState(false);
 
   const handleSignOut = () => {
@@ -104,8 +106,7 @@ export const UserMenu = () => {
               className="h-11 cursor-pointer hover:bg-primary/8 rounded-lg transition-colors"
               onClick={() => {
                 setOpen(false);
-                // TODO: Navigate to settings
-                console.log('Navigate to settings');
+                setShowSettingsDialog(true);
               }}
             >
               <Settings className="h-[18px] w-[18px] mr-3 text-charcoal/70" />
@@ -141,6 +142,13 @@ export const UserMenu = () => {
           </div>
         </DropdownMenuContent>
       </DropdownMenu>
+
+      {/* User Settings Dialog */}
+      <UserSettingsDialog 
+        open={showSettingsDialog}
+        onOpenChange={setShowSettingsDialog}
+        user={mockUser}
+      />
 
       {/* Sign Out Confirmation Dialog */}
       <AlertDialog open={showSignOutDialog} onOpenChange={setShowSignOutDialog}>

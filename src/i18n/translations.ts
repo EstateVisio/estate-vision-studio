@@ -179,6 +179,26 @@ export const translations = {
     signOut: 'Sign out',
     confirmSignOut: 'Are you sure you want to log out?',
     
+    // User Settings
+    userSettingsTitle: 'User Settings',
+    userSettingsSubtitle: 'Update your profile and password.',
+    name: 'Name',
+    email: 'Email',
+    changePassword: 'Change Password',
+    currentPassword: 'Current password',
+    newPassword: 'New password',
+    confirmPassword: 'Confirm new password',
+    passwordHelper: 'At least 8 characters, including a letter and a number.',
+    saveChanges: 'Save Changes',
+    saving: 'Saving…',
+    settingsUpdated: 'Settings updated.',
+    errorNameRequired: 'Please enter a name (2–60 characters).',
+    errorEmailFormat: 'Please enter a valid email.',
+    errorEmailTaken: 'This email is already in use.',
+    errorPasswordWeak: 'Password must meet the requirements.',
+    errorPasswordMatch: 'Passwords do not match.',
+    errorCurrentPasswordRequired: 'Current password is required.',
+    
     // 404 Page
     pageNotFound: 'Page Not Found',
     pageNotFoundDescription: 'The page you are looking for does not exist.',
@@ -361,6 +381,26 @@ export const translations = {
     billing: 'Плащания',
     signOut: 'Изход',
     confirmSignOut: 'Сигурни ли сте, че искате да излезете?',
+    
+    // User Settings
+    userSettingsTitle: 'Потребителски настройки',
+    userSettingsSubtitle: 'Обновете профила и паролата си.',
+    name: 'Име',
+    email: 'Имейл',
+    changePassword: 'Промяна на парола',
+    currentPassword: 'Текуща парола',
+    newPassword: 'Нова парола',
+    confirmPassword: 'Потвърдете новата парола',
+    passwordHelper: 'Минимум 8 знака, поне една буква и една цифра.',
+    saveChanges: 'Запази промените',
+    saving: 'Запазване…',
+    settingsUpdated: 'Настройките са обновени.',
+    errorNameRequired: 'Моля, въведете име (2–60 знака).',
+    errorEmailFormat: 'Моля, въведете валиден имейл.',
+    errorEmailTaken: 'Този имейл вече се използва.',
+    errorPasswordWeak: 'Паролата не отговаря на изискванията.',
+    errorPasswordMatch: 'Паролите не съвпадат.',
+    errorCurrentPasswordRequired: 'Текущата парола е задължителна.',
     
     // 404 Page
     pageNotFound: 'Страницата не е намерена',
