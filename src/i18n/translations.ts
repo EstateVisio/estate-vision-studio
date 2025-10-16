@@ -43,6 +43,22 @@ export const translations = {
     created: 'Created',
     updated: 'Updated',
     
+    // Create Project Dialog
+    newProjectTitle: 'New Project',
+    newProjectSubtitle: 'Name your project and add a short note.',
+    projectNameLabel: 'Project Name',
+    projectDescriptionLabel: 'Description (optional)',
+    projectNamePlaceholder: 'e.g., Downtown Loft Walkthrough',
+    projectDescriptionPlaceholder: 'Optional notes for this project…',
+    createProject: 'Create Project',
+    creating: 'Creating…',
+    enterProjectName: 'Enter a project name',
+    projectNameRequired: 'Please enter a project name.',
+    projectNameLength: 'Please enter a project name (2–80 characters).',
+    projectNameInvalid: 'Only letters, numbers, spaces, dashes, and underscores allowed.',
+    projectCreated: 'Project created',
+    projectCreatedDesc: 'Project created',
+    
     // Simple Flow
     simpleFlowPageTitle: 'Simple Flow',
     simpleFlowPageDescription: 'Upload your photos and let us create a beautiful video montage automatically',
@@ -201,6 +217,22 @@ export const translations = {
     photos: 'снимки',
     created: 'Създаден',
     updated: 'Обновен',
+    
+    // Create Project Dialog
+    newProjectTitle: 'Нов проект',
+    newProjectSubtitle: 'Въведете име и кратко описание.',
+    projectNameLabel: 'Име на проекта',
+    projectDescriptionLabel: 'Описание (незадължително)',
+    projectNamePlaceholder: 'напр. Тур на градско жилище',
+    projectDescriptionPlaceholder: 'Незадължителни бележки за този проект…',
+    createProject: 'Създай проект',
+    creating: 'Създаване…',
+    enterProjectName: 'Въведете име на проекта',
+    projectNameRequired: 'Моля, въведете име на проекта.',
+    projectNameLength: 'Моля, въведете име (2–80 знака).',
+    projectNameInvalid: 'Позволени са само букви, цифри, интервали, тирета и долни черти.',
+    projectCreated: 'Проектът е създаден',
+    projectCreatedDesc: 'Проектът е създаден',
     
     // Simple Flow
     simpleFlowPageTitle: 'Опростен режим',

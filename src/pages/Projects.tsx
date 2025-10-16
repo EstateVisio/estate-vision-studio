@@ -1,12 +1,17 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Calendar, Image, Clock, CheckCircle2, Loader2, FileEdit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { mockProjects } from '@/fixtures/projectData';
 import { format } from 'date-fns';
+import { CreateProjectDialog } from '@/components/CreateProjectDialog';
+import { useLanguage } from '@/hooks/useLanguage';
 
 export const Projects = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -33,13 +38,13 @@ export const Projects = () => {
             </p>
           </div>
           <Button 
-            onClick={() => navigate('/project/new')} 
+            onClick={() => setIsDialogOpen(true)} 
             variant="premium" 
             size="lg" 
             className="px-10 py-6 text-lg shadow-intense hover:scale-105 transition-transform"
           >
             <Plus className="mr-2 h-6 w-6" />
-            New Project
+            {t('newProject')}
           </Button>
         </div>
 
@@ -114,17 +119,19 @@ export const Projects = () => {
               Get started by creating your first cinematic real estate video project
             </p>
             <Button 
-              onClick={() => navigate('/project/new')} 
+              onClick={() => setIsDialogOpen(true)} 
               variant="premium" 
               size="lg" 
               className="px-12 py-6 text-lg shadow-intense hover:scale-105 transition-transform"
             >
               <Plus className="mr-2 h-6 w-6" />
-              Create Your First Project
+              {t('createFirstProject')}
             </Button>
           </div>
         )}
       </div>
+
+      <CreateProjectDialog open={isDialogOpen} onOpenChange={setIsDialogOpen} />
     </main>
   );
 };
